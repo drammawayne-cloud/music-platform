@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rich Row Music</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #080808; color: white; font-family: Arial, Helvetica, sans-serif; }
+    header { padding: 25px 8%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+    .logo { font-size: 28px; font-weight: bold; letter-spacing: 2px; }
+    .logo span { color: #d4af37; }
+    nav a { color: white; text-decoration: none; margin-left: 25px; }
+    .hero { min-height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; }
+    .hero h1 { font-size: 60px; margin-bottom: 15px; }
+    .hero h1 span { color: #d4af37; }
+    .hero p { font-size: 20px; color: #bbb; max-width: 700px; line-height: 1.6; margin-bottom: 30px; }
+    .button { display: inline-block; padding: 15px 30px; background: #d4af37; color: black; text-decoration: none; font-weight: bold; border-radius: 6px; }
+    .section { padding: 70px 8%; text-align: center; }
+    .section h2 { font-size: 36px; margin-bottom: 40px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .card { background: #141414; padding: 35px 20px; border-radius: 10px; border: 1px solid #292929; }
+    .card h3 { color: #d4af37; margin-bottom: 12px; }
+    footer { text-align: center; padding: 30px; border-top: 1px solid #333; color: #777; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">RICH <span>ROW</span> MUSIC</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#crates">DJ Crates</a>
+      <a href="#beats">Beats</a>
+      <a href="#radio">Radio</a>
+      <a href="#services">Services</a>
+    </nav>
+  </header>
 
+  <section class="hero">
+    <h1>Welcome to <span>Rich Row Music</span></h1>
+    <p>Music. DJs. Producers. Artists. Promotion. Discover exclusive DJ crates, beats, live sessions, radio, music services and more.</p>
+    <a class="button" href="#crates">Explore The Music</a>
+  </section>
+
+  <section class="section" id="crates">
+    <h2>Rich Row Music</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>DJ Crates</h3>
+        <p>Curated music collections and DJ resources.</p>
+      </div>
+      <div class="card" id="beats">
+        <h3>Beats</h3>
+        <p>Discover beats and production from our producers.</p>
+      </div>
+      <div class="card" id="radio">
+        <h3>Live Radio</h3>
+        <p>Listen to Rich Row radio shows, mixes and live sessions.</p>
+      </div>
+      <div class="card" id="services">
+        <h3>Book Our Services</h3>
+        <p>DJ services, production, promotion, engineering and more.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Rich Row Music. All Rights Reserved.</footer>
+</body>
+</html>
