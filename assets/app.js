@@ -1,5 +1,5 @@
 // Existing music-platform shared entry; extends the current site without changing its pages.
-import('./control-center-content.js?v=catalog-4').catch(()=>console.warn('Rich Row content connection is unavailable.'));
+import('./control-center-content.js?v=cart-2').catch(()=>console.warn('Rich Row content connection is unavailable.'));
 // Add Distribution to the shared navigation without changing existing page files.
 const richRowNav=document.querySelector('header nav');
 if(richRowNav&&!richRowNav.querySelector('a[href="distribution.html"]')){
@@ -28,3 +28,5 @@ if(richRowNav&&!richRowNav.querySelector('a[data-merch-cart]')){const cart=docum
 import('./activity-popups.js?v=2').catch(()=>{});
 
 import('./customer-chat-widget.js?v=2').catch(()=>{});
+
+import('./button-icons.js');
