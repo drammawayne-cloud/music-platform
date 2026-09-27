@@ -13,7 +13,7 @@ if (!document.documentElement.classList.contains('rr-cosmic')) {
  const icons={menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',cart:'<path d="M3 3h2l2.4 12h11.2l2-8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>'};
  const svg=name=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icons[name]+'</svg>';
  const actions=document.createElement('div');actions.className='rr-header-actions';
- const cart=nav.querySelector('[data-merch-cart]')||document.createElement('a');cart.href='https://console.richrowmusic.com/addons/merch#cart';cart.className='rr-cart-icon';cart.setAttribute('aria-label','Shopping cart');cart.title='Shopping cart';cart.innerHTML=svg('cart');actions.append(cart);
+ const cart=nav.querySelector('[data-merch-cart]')||document.createElement('a');cart.href='https://console.richrowmusic.com/addons/cart';cart.className='rr-cart-icon';cart.setAttribute('aria-label','Shopping cart');cart.title='Shopping cart';cart.innerHTML=svg('cart');actions.append(cart);
  const menu=document.createElement('button');menu.type='button';menu.className='rr-menu-toggle';menu.setAttribute('aria-controls',nav.id);
  const setOpen=open=>{nav.classList.toggle('rr-open',open);menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close menu':'Open menu');menu.title=open?'Close menu':'Open menu';menu.innerHTML=svg(open?'close':'menu')};
  setOpen(false);menu.onclick=()=>setOpen(menu.getAttribute('aria-expanded')!=='true');actions.append(menu);nav.before(actions);

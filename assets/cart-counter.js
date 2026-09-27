@@ -1,0 +1,11 @@
+const origin='https://console.richrowmusic.com';
+const frame=document.createElement('iframe');frame.src=origin+'/addons/cart-count';frame.hidden=true;frame.title='Your cart item count';frame.setAttribute('aria-hidden','true');frame.tabIndex=-1;document.body.append(frame);
+let current=0;
+function update(){const cart=document.querySelector('.rr-cart-icon');if(!cart)return;cart.href=origin+'/addons/cart';cart.style.position='relative';let badge=cart.querySelector('[data-cart-count]');if(!badge){badge=document.createElement('span');badge.dataset.cartCount='';badge.style.cssText='position:absolute;top:-6px;right:-7px;min-width:19px;padding:1px 5px;border-radius:12px;background:#dfc58d;color:#12111b;font:bold 11px/17px Arial';cart.append(badge);}badge.textContent=String(current);badge.hidden=current===0;cart.setAttribute('aria-label',current?'Shopping cart, '+current+' items':'Shopping cart');}
+window.addEventListener('message',event=>{if(event.origin!==origin||event.source!==frame.contentWindow||event.data?.type!=='rich-row-cart-count'||!Number.isInteger(event.data.count)||event.data.count<0)return;current=event.data.count;update();});
+const request=()=>frame.contentWindow?.postMessage({type:'rich-row-cart-count-request'},origin);frame.addEventListener('load',request);window.addEventListener('focus',request);update();
+
+const pending=new Map();let ready=false;
+frame.addEventListener('load',()=>{ready=true;for(const [requestId,value] of pending)frame.contentWindow.postMessage({type:'rich-row-cart-add',requestId,item:value.item},origin);});
+window.addEventListener('rr-cart-add',event=>{const requestId=crypto.randomUUID(),value={item:event.detail.item,complete:event.detail.complete};pending.set(requestId,value);if(ready)frame.contentWindow.postMessage({type:'rich-row-cart-add',requestId,item:value.item},origin);setTimeout(()=>{if(pending.has(requestId)){pending.delete(requestId);value.complete?.('Cart connection is unavailable. Open your cart and try again.');}},15000);});
+window.addEventListener('message',event=>{if(event.origin!==origin||event.source!==frame.contentWindow||event.data?.type!=='rich-row-cart-added')return;const value=pending.get(event.data.requestId);if(!value)return;pending.delete(event.data.requestId);value.complete?.(event.data.ok?null:String(event.data.error||'Unable to add this item.'));});
