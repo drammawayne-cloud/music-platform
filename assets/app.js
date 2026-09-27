@@ -26,3 +26,5 @@ if(richRowNav&&!richRowNav.querySelector('a[href="merch.html"]')){const merch=do
 if(richRowNav&&!richRowNav.querySelector('a[data-merch-cart]')){const cart=document.createElement('a');cart.href='https://console.richrowmusic.com/addons/merch#cart';cart.textContent='Cart';cart.dataset.merchCart='true';richRowNav.append(cart);}
 
 import('./activity-popups.js').catch(()=>{});
+
+import('./customer-chat-widget.js').catch(()=>{});
