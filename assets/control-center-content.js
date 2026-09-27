@@ -1,3 +1,4 @@
+import {youtubeId, mountYouTube} from './video-embeds.js';
 import {mountHighlights} from './catalog-highlights.js';
 import './audio-player.js';
 import {config} from './control-center-config.js';
@@ -20,10 +21,12 @@ if(category&&config.supabaseUrl&&config.publishableKey){
    status.textContent='';const groups=document.createElement('div');groups.className='catalog-groups';const genreGrids=new Map();
    for(const record of records){
     const genre=category==='music'?(record.genre||'More music'):'';
-    if(!genreGrids.has(genre)){const group=document.createElement('section');if(genre){const label=document.createElement('h3');label.textContent=genre;group.append(label);}const grid=document.createElement('div');grid.className='grid';group.append(grid);groups.append(group);genreGrids.set(genre,grid);}
+    if(!genreGrids.has(genre)){const group=document.createElement('section');if(genre){const label=document.createElement('h3');label.textContent=genre;group.append(label);}const grid=document.createElement('div');grid.className='grid';if(category==='videos')grid.style.gridTemplateColumns='repeat(auto-fit,minmax(min(100%,420px),1fr))';group.append(grid);groups.append(group);genreGrids.set(genre,grid);}
     const grid=genreGrids.get(genre);
     const card=document.createElement('article');card.className='card';
-    for(const [key,tag] of [['cover_url','img'],['video_url','video']]){if(!record[key])continue;try{const u=new URL(record[key]);if(u.protocol!=='https:'||u.username||u.password)continue;const media=document.createElement(tag);media.src=u.href;media.style.cssText='width:100%;border-radius:12px;'+(tag==='img'?'aspect-ratio:1;object-fit:cover;':'');if(tag==='img'){media.alt=record.title+' cover art';media.loading='lazy';}else{media.controls=true;media.playsInline=true;media.preload='none';}card.append(media);}catch{}}
+    const yt=category==='videos'?(youtubeId(record.video_url)||youtubeId(record.link)):null;
+    if(yt)mountYouTube(card,yt,record.title);
+    for(const [key,tag] of [['cover_url','img'],['video_url','video']]){if(!record[key]||(yt&&(key==='cover_url'||youtubeId(record[key]))))continue;try{const u=new URL(record[key]);if(u.protocol!=='https:'||u.username||u.password)continue;const media=document.createElement(tag);media.src=u.href;media.style.cssText='width:100%;border-radius:12px;'+(tag==='img'?'aspect-ratio:1;object-fit:cover;':'');if(tag==='img'){media.alt=record.title+' cover art';media.loading='lazy';}else{media.controls=true;media.playsInline=true;media.preload='none';}card.append(media);}catch{}}
     const title=document.createElement('h3');title.textContent=record.title;
     const description=document.createElement('p');description.textContent=record.description;description.style.whiteSpace='pre-wrap';
     const artist=document.createElement('p');artist.textContent=record.artist||'';card.append(title,artist,description);
