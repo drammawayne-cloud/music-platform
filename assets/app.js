@@ -1,5 +1,5 @@
 // Existing music-platform shared entry; extends the current site without changing its pages.
-import('./control-center-content.js').catch(()=>console.warn('Rich Row content connection is unavailable.'));
+import('./control-center-content.js?v=catalog-2').catch(()=>console.warn('Rich Row content connection is unavailable.'));
 // Add Distribution to the shared navigation without changing existing page files.
 const richRowNav=document.querySelector('header nav');
 if(richRowNav&&!richRowNav.querySelector('a[href="distribution.html"]')){
@@ -16,3 +16,5 @@ if(richRowNav){
 }
 
 for(const a of document.querySelectorAll('a[href]')){if(a.href.startsWith('https://rich-row-control-center.onrender.com/'))a.href=a.href.replace('https://rich-row-control-center.onrender.com','https://console.richrowmusic.com');}
+
+import('./music-embeds.js').catch(()=>console.warn('Music players unavailable.'));
