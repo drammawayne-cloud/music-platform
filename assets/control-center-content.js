@@ -1,3 +1,4 @@
+import {mountHighlights} from './catalog-highlights.js';
 import './audio-player.js';
 import {config} from './control-center-config.js';
 const mapping={'music.html':'music','remixes.html':'remixes','crates.html':'dj-crates','juggling.html':'unorthodox-juggling','beats.html':'beats','releases.html':'releases','radio.html':'radio','videos.html':'videos','services.html':'services','graphic-design.html':'graphic-design'};
@@ -10,18 +11,22 @@ if(category&&config.supabaseUrl&&config.publishableKey){
  async function load(){
   try{
    const base=new URL(config.supabaseUrl);if(base.protocol!=='https:')throw Error('HTTPS required');
-   const params=new URLSearchParams({website_id:'eq.'+config.websiteId,category:'eq.'+category,status:'eq.published',select:'id,title,description,link',order:'created_at.desc',limit:'200'});
+   const params=new URLSearchParams({website_id:'eq.'+config.websiteId,category:'eq.'+category,status:'eq.published',select:'id,title,description,link,artist,genre,display_order,cover_url,video_url,highlight,highlight_until',order:'display_order.asc,created_at.desc',limit:'200'});
    const response=await fetch(base.origin+'/rest/v1/rr_content?'+params,{headers:{apikey:config.publishableKey},cache:'no-store'});
    if(!response.ok)throw Error('Content unavailable');const records=await response.json();
    if(!Array.isArray(records))throw Error('Invalid response');
-   section.querySelector('.grid')?.remove();
+   section.querySelector('.catalog-groups')?.remove();mountHighlights(section,records);
    if(!records.length){status.textContent='New releases and updates are coming soon.';return;}
-   status.textContent='';const grid=document.createElement('div');grid.className='grid';
+   status.textContent='';const groups=document.createElement('div');groups.className='catalog-groups';const genreGrids=new Map();
    for(const record of records){
+    const genre=category==='music'?(record.genre||'More music'):'';
+    if(!genreGrids.has(genre)){const group=document.createElement('section');if(genre){const label=document.createElement('h3');label.textContent=genre;group.append(label);}const grid=document.createElement('div');grid.className='grid';group.append(grid);groups.append(group);genreGrids.set(genre,grid);}
+    const grid=genreGrids.get(genre);
     const card=document.createElement('article');card.className='card';
+    for(const [key,tag] of [['cover_url','img'],['video_url','video']]){if(!record[key])continue;try{const u=new URL(record[key]);if(u.protocol!=='https:'||u.username||u.password)continue;const media=document.createElement(tag);media.src=u.href;media.style.cssText='width:100%;border-radius:12px;'+(tag==='img'?'aspect-ratio:1;object-fit:cover;':'');if(tag==='img'){media.alt=record.title+' cover art';media.loading='lazy';}else{media.controls=true;media.playsInline=true;media.preload='none';}card.append(media);}catch{}}
     const title=document.createElement('h3');title.textContent=record.title;
     const description=document.createElement('p');description.textContent=record.description;description.style.whiteSpace='pre-wrap';
-    card.append(title,description);
+    const artist=document.createElement('p');artist.textContent=record.artist||'';card.append(title,artist,description);
     if(['music','remixes','beats','releases','dj-crates','unorthodox-juggling','radio'].includes(category)){
      const play=document.createElement('button');play.textContent='Listen to full song';
      const audioStatus=document.createElement('p');audioStatus.setAttribute('role','status');
@@ -43,9 +48,9 @@ if(category&&config.supabaseUrl&&config.publishableKey){
       }catch{audioStatus.textContent='Audio could not load. Please try again later.';}finally{play.disabled=false;}
      };
     }
-    if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent='Open →';a.target='_blank';a.rel='noopener noreferrer';card.append(a);}}catch{}}
+    if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent='Listen →';a.target='_blank';a.rel='noopener noreferrer';card.append(a);}}catch{}}
     grid.append(card);
-   }section.append(grid);
+   }section.append(groups);
   }catch{status.textContent='Updates are temporarily unavailable. Please try again later.';}
  }
  load();
