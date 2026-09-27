@@ -11,6 +11,8 @@ if(richRowNav){const a=document.createElement('a');a.href=new URL('pages/radio.h
 
 // Rich Row add-on public destinations (no private keys).
 if(richRowNav){
- const destinations=[['Distribution','https://rich-row-control-center.onrender.com/addons/distribution'],['Music Store','https://rich-row-control-center.onrender.com/addons/store'],['Radio & Live','https://rich-row-control-center.onrender.com/addons/radio']];
+ const destinations=[['Console','https://console.richrowmusic.com/'],['Distribution','https://console.richrowmusic.com/addons/distribution'],['Music Store','https://console.richrowmusic.com/addons/store'],['Radio & Live','https://console.richrowmusic.com/addons/radio']];
  for(const [label,href] of destinations){let link=[...richRowNav.querySelectorAll('a')].find(a=>a.textContent.trim()===label);if(!link){link=document.createElement('a');link.textContent=label;richRowNav.append(link);}link.href=href;}
 }
+
+for(const a of document.querySelectorAll('a[href]')){if(a.href.startsWith('https://rich-row-control-center.onrender.com/'))a.href=a.href.replace('https://rich-row-control-center.onrender.com','https://console.richrowmusic.com');}
