@@ -22,3 +22,5 @@ import('./music-embeds.js').catch(()=>console.warn('Music players unavailable.')
 import('./cosmic.js?v=3').catch(()=>console.warn('Rich Row theme unavailable.'));
 
 if(richRowNav&&!richRowNav.querySelector('a[href="merch.html"]')){const merch=document.createElement("a");merch.href=new URL("merch.html",rrScriptBase).href;merch.textContent="Merch";const musicLink=[...richRowNav.querySelectorAll("a")].find(a=>a.textContent.trim()==="Music");if(musicLink)musicLink.after(merch);else richRowNav.append(merch);}
+
+if(richRowNav&&!richRowNav.querySelector('a[data-merch-cart]')){const cart=document.createElement('a');cart.href='https://console.richrowmusic.com/addons/merch#cart';cart.textContent='Cart';cart.dataset.merchCart='true';richRowNav.append(cart);}
