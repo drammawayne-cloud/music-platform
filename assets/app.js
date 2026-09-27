@@ -19,7 +19,7 @@ for(const a of document.querySelectorAll('a[href]')){if(a.href.startsWith('https
 
 import('./music-embeds.js').catch(()=>console.warn('Music players unavailable.'));
 
-import('./cosmic.js?v=4').catch(()=>console.warn('Rich Row theme unavailable.'));
+import('./cosmic.js?v=5').catch(()=>console.warn('Rich Row theme unavailable.'));
 
 if(richRowNav&&!richRowNav.querySelector('a[href="merch.html"]')){const merch=document.createElement("a");merch.href=new URL("merch.html",rrScriptBase).href;merch.textContent="Merch";const musicLink=[...richRowNav.querySelectorAll("a")].find(a=>a.textContent.trim()==="Music");if(musicLink)musicLink.after(merch);else richRowNav.append(merch);}
 
