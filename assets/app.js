@@ -18,3 +18,5 @@ if(richRowNav){
 for(const a of document.querySelectorAll('a[href]')){if(a.href.startsWith('https://rich-row-control-center.onrender.com/'))a.href=a.href.replace('https://rich-row-control-center.onrender.com','https://console.richrowmusic.com');}
 
 import('./music-embeds.js').catch(()=>console.warn('Music players unavailable.'));
+
+import('./cosmic.js?v=1').catch(()=>console.warn('Rich Row theme unavailable.'));
