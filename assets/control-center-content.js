@@ -51,7 +51,7 @@ if(category&&config.supabaseUrl&&config.publishableKey){
       }catch{audioStatus.textContent='Audio could not load. Please try again later.';}finally{play.disabled=false;}
      };
     }
-    if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent=['services','graphic-design'].includes(category)?'Enquire →':category==='videos'?'Watch →':'Listen →';a.target='_blank';a.rel='noopener noreferrer';card.append(a);}}catch{}}
+    if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent=['services','graphic-design'].includes(category)?(url.hostname==='buy.stripe.com'?'Pay securely →':url.pathname.includes('/addons/booking')?'Choose a time →':'View service →'):category==='videos'?'Watch →':'Listen →';a.target='_blank';a.rel='noopener noreferrer';card.append(a);}}catch{}}
     grid.append(card);
    }section.append(groups);
   }catch{status.textContent='Updates are temporarily unavailable. Please try again later.';}
