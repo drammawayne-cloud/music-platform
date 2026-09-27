@@ -1,3 +1,4 @@
+const installStyle=document.createElement('style');installStyle.textContent='#install-rich-row[hidden]{display:none!important}';document.head.append(installStyle);
 if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js',{updateViaCache:'none'}).catch(()=>{});
 let promptEvent;
 window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();promptEvent=event;const button=document.querySelector('#install-rich-row');if(button)button.hidden=false;});
