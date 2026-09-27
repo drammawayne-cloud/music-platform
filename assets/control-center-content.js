@@ -1,8 +1,9 @@
+import {mountMovie} from './movie-player.js';
 import {youtubeId, mountYouTube} from './video-embeds.js';
 import {mountHighlights} from './catalog-highlights.js';
 import './audio-player.js';
 import {config} from './control-center-config.js';
-const mapping={'music.html':'music','remixes.html':'remixes','crates.html':'dj-crates','juggling.html':'unorthodox-juggling','beats.html':'beats','releases.html':'releases','radio.html':'radio','videos.html':'videos','services.html':'services','graphic-design.html':'graphic-design'};
+const mapping={'music.html':'music','remixes.html':'remixes','crates.html':'dj-crates','juggling.html':'unorthodox-juggling','beats.html':'beats','releases.html':'releases','radio.html':'radio','videos.html':'videos','movies.html':'movies','services.html':'services','graphic-design.html':'graphic-design'};
 const category=mapping[location.pathname.split('/').pop()];
 if(category&&config.supabaseUrl&&config.publishableKey){
  const section=document.createElement('section');section.id='rich-row-published';
@@ -12,21 +13,23 @@ if(category&&config.supabaseUrl&&config.publishableKey){
  async function load(){
   try{
    const base=new URL(config.supabaseUrl);if(base.protocol!=='https:')throw Error('HTTPS required');
-   const params=new URLSearchParams({website_id:'eq.'+config.websiteId,category:'eq.'+category,status:'eq.published',select:'id,title,description,link,artist,genre,display_order,cover_url,video_url,highlight,highlight_until',order:'display_order.asc,created_at.desc',limit:'200'});
+   const params=new URLSearchParams({website_id:'eq.'+config.websiteId,category:'eq.'+category,status:'eq.published',select:'id,title,description,link,artist,genre,display_order,cover_url,video_url,highlight,highlight_until',order:'display_order.asc,created_at.desc,id.asc',limit:'200'});
    const response=await fetch(base.origin+'/rest/v1/rr_content?'+params,{headers:{apikey:config.publishableKey},cache:'no-store'});
    if(!response.ok)throw Error('Content unavailable');const records=await response.json();
    if(!Array.isArray(records))throw Error('Invalid response');
+   if(category==='movies'){let page=records;while(page.length===200){params.set('offset',String(records.length));const more=await fetch(base.origin+'/rest/v1/rr_content?'+params,{headers:{apikey:config.publishableKey},cache:'no-store'});if(!more.ok)throw Error('Movies unavailable');page=await more.json();if(!Array.isArray(page))throw Error('Invalid movies');records.push(...page);}}
    section.querySelector('.catalog-groups')?.remove();mountHighlights(section,records);
-   if(!records.length){status.textContent='New releases and updates are coming soon.';return;}
+   if(!records.length){status.textContent=category==='movies'?'Our films and stories will appear here when published.':'New releases and updates are coming soon.';return;}
    status.textContent='';const groups=document.createElement('div');groups.className='catalog-groups';const genreGrids=new Map();
    for(const record of records){
     const genre=category==='music'?(record.genre||'More music'):'';
-    if(!genreGrids.has(genre)){const group=document.createElement('section');if(genre){const label=document.createElement('h3');label.textContent=genre;group.append(label);}const grid=document.createElement('div');grid.className='grid';if(category==='videos')grid.style.gridTemplateColumns='repeat(auto-fit,minmax(min(100%,420px),1fr))';group.append(grid);groups.append(group);genreGrids.set(genre,grid);}
+    if(!genreGrids.has(genre)){const group=document.createElement('section');if(genre){const label=document.createElement('h3');label.textContent=genre;group.append(label);}const grid=document.createElement('div');grid.className='grid';if(['videos','movies'].includes(category))grid.style.gridTemplateColumns='repeat(auto-fit,minmax(min(100%,420px),1fr))';group.append(grid);groups.append(group);genreGrids.set(genre,grid);}
     const grid=genreGrids.get(genre);
     const card=document.createElement('article');card.className='card';
+    const movie=category==='movies'&&mountMovie(card,record.link,record.title);
     const yt=category==='videos'?(youtubeId(record.video_url)||youtubeId(record.link)):null;
     if(yt)mountYouTube(card,yt,record.title);
-    for(const [key,tag] of [['cover_url','img'],['video_url','video']]){if(!record[key]||(yt&&(key==='cover_url'||youtubeId(record[key]))))continue;try{const u=new URL(record[key]);if(u.protocol!=='https:'||u.username||u.password)continue;const media=document.createElement(tag);media.src=u.href;media.style.cssText='width:100%;border-radius:12px;'+(tag==='img'?'aspect-ratio:1;object-fit:cover;':'');if(tag==='img'){media.alt=record.title+' cover art';media.loading='lazy';}else{media.controls=true;media.playsInline=true;media.preload='none';}card.append(media);}catch{}}
+    for(const [key,tag] of [['cover_url','img'],['video_url','video']]){if(movie||!record[key]||(yt&&(key==='cover_url'||youtubeId(record[key]))))continue;try{const u=new URL(record[key]);if(u.protocol!=='https:'||u.username||u.password)continue;const media=document.createElement(tag);media.src=u.href;media.style.cssText='width:100%;border-radius:12px;'+(tag==='img'?'aspect-ratio:1;object-fit:cover;':'');if(tag==='img'){media.alt=record.title+' cover art';media.loading='lazy';}else{media.controls=true;media.playsInline=true;media.preload='none';}card.append(media);}catch{}}
     const title=document.createElement('h3');title.textContent=record.title;
     const description=document.createElement('p');description.textContent=record.description;description.style.whiteSpace='pre-wrap';
     const artist=document.createElement('p');artist.textContent=record.artist||'';card.append(title,artist,description);
@@ -51,7 +54,7 @@ if(category&&config.supabaseUrl&&config.publishableKey){
       }catch{audioStatus.textContent='Audio could not load. Please try again later.';}finally{play.disabled=false;}
      };
     }
-    if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent=['services','graphic-design'].includes(category)?(url.hostname==='buy.stripe.com'?'Pay securely →':url.pathname.includes('/addons/booking')?'Choose a time →':'View service →'):category==='videos'?'Watch →':'Listen →';a.target='_blank';a.rel='noopener noreferrer';if(url.hostname==='console.richrowmusic.com'&&url.pathname==='/addons/cart'&&url.searchParams.has('service')){a.textContent='Add to cart';a.removeAttribute('target');a.onclick=event=>{event.preventDefault();window.dispatchEvent(new CustomEvent('rr-cart-add',{detail:{item:{kind:'service',service:url.searchParams.get('service')},complete:error=>{let status=card.querySelector('[data-cart-status]');if(!status){status=document.createElement('p');status.dataset.cartStatus='';status.setAttribute('role','status');card.append(status)}status.textContent=error||'Added to your cart.';}}}))};const buy=document.createElement('a');const direct=new URL(url);direct.searchParams.set('buyNow','1');buy.href=direct.href;buy.textContent='Purchase now';card.append(a,buy);}else card.append(a);}}catch{}}
+    if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent=['services','graphic-design'].includes(category)?(url.hostname==='buy.stripe.com'?'Pay securely →':url.pathname.includes('/addons/booking')?'Choose a time →':'View service →'):['videos','movies'].includes(category)?'Watch →':'Listen →';a.target='_blank';a.rel='noopener noreferrer';if(url.hostname==='console.richrowmusic.com'&&url.pathname==='/addons/cart'&&url.searchParams.has('service')){a.textContent='Add to cart';a.removeAttribute('target');a.onclick=event=>{event.preventDefault();window.dispatchEvent(new CustomEvent('rr-cart-add',{detail:{item:{kind:'service',service:url.searchParams.get('service')},complete:error=>{let status=card.querySelector('[data-cart-status]');if(!status){status=document.createElement('p');status.dataset.cartStatus='';status.setAttribute('role','status');card.append(status)}status.textContent=error||'Added to your cart.';}}}))};const buy=document.createElement('a');const direct=new URL(url);direct.searchParams.set('buyNow','1');buy.href=direct.href;buy.textContent='Purchase now';card.append(a,buy);}else card.append(a);}}catch{}}
     grid.append(card);
    }section.append(groups);
   }catch{status.textContent='Updates are temporarily unavailable. Please try again later.';}
