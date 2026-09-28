@@ -27,7 +27,7 @@ if(richRowNav&&!richRowNav.querySelector('a[data-merch-cart]')){const cart=docum
 
 import('./activity-popups.js?v=2').catch(()=>{});
 
-import('./customer-chat-widget.js?v=2').catch(()=>{});
+import('./customer-chat-widget.js?v=cream1').catch(()=>{});
 
 import('./button-icons.js');
 

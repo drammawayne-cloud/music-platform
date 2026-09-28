@@ -1,7 +1,41 @@
-if(!document.querySelector('#rr-chat-launcher')&&!location.pathname.endsWith('/addons/chat')){
- const button=document.createElement('button');button.id='rr-chat-launcher';button.type='button';button.textContent='Chat with us';const icon=document.createElementNS('http://www.w3.org/2000/svg','svg');icon.setAttribute('viewBox','0 0 24 24');icon.setAttribute('width','19');icon.setAttribute('height','19');icon.setAttribute('aria-hidden','true');icon.setAttribute('fill','none');icon.setAttribute('stroke','currentColor');icon.setAttribute('stroke-width','1.7');const outline=document.createElementNS('http://www.w3.org/2000/svg','path');outline.setAttribute('d','M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-3 2 2-6A8.5 8.5 0 1 1 21 11.5Z');icon.append(outline);button.prepend(icon);button.setAttribute('aria-expanded','false');button.setAttribute('aria-controls','rr-chat-panel');
- const panel=document.createElement('section');panel.id='rr-chat-panel';panel.hidden=true;panel.setAttribute('aria-label','Chat with Rich Row');
- const close=document.createElement('button');close.type='button';close.textContent='Close chat';const frame=document.createElement('iframe');frame.title='Private conversation with Rich Row';frame.loading='lazy';frame.referrerPolicy='no-referrer';
- const hide=()=>{panel.hidden=true;button.setAttribute('aria-expanded','false');button.focus();};button.onclick=()=>{if(!panel.hidden){hide();return;}if(!frame.src)frame.src='https://console.richrowmusic.com/addons/chat?embedded=1';panel.hidden=false;button.setAttribute('aria-expanded','true');close.focus();};close.onclick=hide;panel.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});panel.append(close,frame);document.body.append(button,panel);
- const style=document.createElement('style');style.textContent='#rr-chat-launcher{display:inline-flex;align-items:center;gap:8px;position:fixed;bottom:max(18px,env(safe-area-inset-bottom));right:18px;z-index:70;background:#141523e8!important;color:#fff!important;border:1px solid #ffffff45!important;border-radius:22px!important;padding:12px 18px!important;min-height:44px;font:600 13px Arial;cursor:pointer}#rr-chat-panel{position:fixed;right:18px;bottom:74px;width:min(390px,calc(100vw - 24px));height:min(570px,calc(100dvh - 92px));z-index:80;border:1px solid #ffffff40;border-radius:18px;background:#10121d;box-shadow:0 20px 70px #0009;overflow:hidden;padding:0!important;display:flex;flex-direction:column}#rr-chat-panel[hidden]{display:none}#rr-chat-panel>button{align-self:flex-end;margin:8px;background:transparent;color:white;border:1px solid #ffffff40;border-radius:14px;padding:8px 14px;min-height:40px;cursor:pointer}#rr-chat-panel iframe{border:0;width:100%;flex:1;min-height:0;background:#10121d}';document.head.append(style);
-}
+// Movable Rich Row chat. Existing Control Center chat handles messages.
+(()=>{
+ if(document.getElementById('rr-chat-launcher')||location.pathname.endsWith('/addons/chat'))return;
+ const site=document.body.dataset.site||'richrowmusic';
+ const title=site==='waynekastro'?'Wayne Kastro':site==='dracodon17'?'Draco Don17':'Rich Row';
+ const key=`${site}-chat-position`;
+ const widget=document.createElement('div');widget.className='rr-chat-widget';widget.setAttribute('aria-label',`Talk to ${title}`);
+ const launcher=document.createElement('button');launcher.type='button';launcher.id='rr-chat-launcher';launcher.textContent='Talk to me';launcher.setAttribute('aria-controls','rr-chat-panel');launcher.setAttribute('aria-expanded','false');launcher.title='Drag to move · Tap to chat';
+ const panel=document.createElement('section');panel.id='rr-chat-panel';panel.hidden=true;panel.setAttribute('aria-label',`Chat with ${title}`);
+ const bar=document.createElement('div');bar.className='rr-chat-drag';bar.tabIndex=0;bar.setAttribute('role','group');bar.setAttribute('aria-label','Move chat window. Drag, or use arrow keys.');
+ const label=document.createElement('strong');label.textContent=`Talk to ${title}`;
+ const close=document.createElement('button');close.type='button';close.textContent='Close';close.setAttribute('aria-label','Close chat');
+ bar.append(label,close);
+ const frame=document.createElement('iframe');frame.title=`Private conversation with ${title}`;frame.loading='lazy';frame.referrerPolicy='no-referrer';
+ panel.append(bar,frame);widget.append(launcher,panel);document.body.append(widget);
+ const clamp=(v,min,max)=>Math.min(Math.max(v,min),Math.max(min,max));
+ const read=()=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
+ const save=()=>{try{localStorage.setItem(key,JSON.stringify({x:widget.offsetLeft,y:widget.offsetTop}))}catch{}};
+ const place=(x,y)=>{widget.style.left=clamp(x,8,innerWidth-widget.offsetWidth-8)+'px';widget.style.top=clamp(y,8,innerHeight-widget.offsetHeight-8)+'px';widget.style.right='auto';widget.style.bottom='auto';};
+ const initial=read();requestAnimationFrame(()=>{if(initial&&Number.isFinite(initial.x)&&Number.isFinite(initial.y))place(initial.x,initial.y);});
+ const open=()=>{if(!frame.src)frame.src=`https://console.richrowmusic.com/addons/chat?embedded=1&site=${encodeURIComponent(site)}`;panel.hidden=false;widget.classList.add('rr-chat-open');launcher.setAttribute('aria-expanded','true');const rect=widget.getBoundingClientRect();place(rect.left,rect.top);bar.focus();};
+ const hide=()=>{panel.hidden=true;widget.classList.remove('rr-chat-open');launcher.setAttribute('aria-expanded','false');place(widget.offsetLeft,widget.offsetTop);save();launcher.focus();};
+ let wasDragged=false;
+ const drag=handle=>{let start=null;handle.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.closest('button')&&e.target!==launcher)return;start={x:e.clientX,y:e.clientY,left:widget.offsetLeft,top:widget.offsetTop};wasDragged=false;handle.setPointerCapture(e.pointerId);});handle.addEventListener('pointermove',e=>{if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;if(Math.abs(dx)+Math.abs(dy)>5)wasDragged=true;if(wasDragged){place(start.left+dx,start.top+dy);e.preventDefault();}});const end=()=>{if(start&&wasDragged)save();start=null;};handle.addEventListener('pointerup',end);handle.addEventListener('pointercancel',end);};
+ drag(launcher);drag(bar);
+ launcher.addEventListener('click',e=>{if(wasDragged){e.preventDefault();wasDragged=false;return;}panel.hidden?open():hide();});
+ close.addEventListener('click',hide);panel.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
+ bar.addEventListener('keydown',e=>{const moves={ArrowLeft:[-20,0],ArrowRight:[20,0],ArrowUp:[0,-20],ArrowDown:[0,20]};if(!moves[e.key])return;e.preventDefault();place(widget.offsetLeft+moves[e.key][0],widget.offsetTop+moves[e.key][1]);save();});
+ addEventListener('resize',()=>{if(widget.style.left){place(widget.offsetLeft,widget.offsetTop);save();}});
+ const style=document.createElement('style');style.textContent=`
+ .rr-chat-widget{position:fixed;right:18px;bottom:max(18px,env(safe-area-inset-bottom));z-index:90;touch-action:none;font-family:system-ui,sans-serif;color:var(--text,#201b17)}
+ #rr-chat-launcher{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:11px 19px;background:var(--accent,#79552c);color:var(--accent-dark,#fffaf0);border:1px solid var(--accent,#79552c);border-radius:999px;box-shadow:0 8px 25px #0004;font-size:13px;font-weight:800;cursor:grab;touch-action:none;user-select:none}
+ #rr-chat-launcher:active,.rr-chat-drag:active{cursor:grabbing}
+ .rr-chat-widget.rr-chat-open #rr-chat-launcher{display:none}
+ #rr-chat-panel{display:flex;flex-direction:column;width:min(390px,calc(100vw - 16px));height:min(560px,calc(100dvh - 16px));overflow:hidden;border:1px solid var(--line,#d4c5ad);border-radius:14px;background:var(--surface,#fffaf0);box-shadow:0 22px 65px #0006}
+ #rr-chat-panel[hidden]{display:none}.rr-chat-drag{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:52px;padding:8px 12px 8px 17px;border-bottom:1px solid var(--line,#d4c5ad);cursor:grab;touch-action:none;user-select:none;font-size:14px}
+ .rr-chat-drag button{min-height:36px;padding:5px 12px;border:1px solid var(--line,#d4c5ad);border-radius:5px;background:transparent;color:inherit;cursor:pointer}
+ #rr-chat-panel iframe{width:100%;flex:1;min-height:0;border:0;background:white}
+ @media(max-width:500px){#rr-chat-panel{width:min(350px,calc(100vw - 16px));height:min(490px,calc(100dvh - 16px))}}
+ `;document.head.append(style);
+})();
