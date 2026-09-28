@@ -6,7 +6,7 @@ for(const root of document.querySelectorAll('[data-radio]')){
  const title=document.createElement(home?'strong':'h2');title.textContent='Highlife Radio';
  const link=document.createElement('a');link.href=station;link.textContent='Open radio player';link.target='_blank';link.rel='noopener';
  if(home){
-  mountSpeakerRadio(root);const welcome=document.getElementById('rr-welcome');if(welcome)welcome.after(root);else document.querySelector('main')?.prepend(root);
+  mountSpeakerRadio(root);
  }else{
   const frame=document.createElement('iframe');frame.src=station+'/embed?theme=dark';frame.title='Highlife Radio live player';frame.allow='autoplay';frame.style.cssText='width:100%;height:330px;border:0;border-radius:12px';root.replaceChildren(title,frame,link);
  }
