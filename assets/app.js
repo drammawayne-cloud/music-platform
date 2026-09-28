@@ -11,7 +11,7 @@ if(richRowNav){const a=document.createElement('a');a.href=new URL('pages/radio.h
 
 // Rich Row add-on public destinations (no private keys).
 if(richRowNav){
- const destinations=[['Console','https://console.richrowmusic.com/'],['Distribution','https://console.richrowmusic.com/addons/distribution'],['Music Store','https://console.richrowmusic.com/addons/store'],['Radio & Live','https://console.richrowmusic.com/addons/radio']];
+ const destinations=[['Console','https://console.richrowmusic.com/'],['Distribution','https://console.richrowmusic.com/addons/distribution'],['Music Store','https://console.richrowmusic.com/addons/store'],['Radio & Live','https://richrowmusic.com/radio.html']];
  for(const [label,href] of destinations){let link=[...richRowNav.querySelectorAll('a')].find(a=>a.textContent.trim()===label);if(!link){link=document.createElement('a');link.textContent=label;richRowNav.append(link);}link.href=href;}
 }
 
@@ -32,3 +32,5 @@ import('./customer-chat-widget.js?v=2').catch(()=>{});
 import('./button-icons.js');
 
 if(richRowNav&&!richRowNav.querySelector('a[href="movies.html"]')){const movies=document.createElement('a');movies.href=new URL('movies.html',rrScriptBase).href;movies.textContent='Movies';richRowNav.append(movies);}
+
+for(const link of document.querySelectorAll('a[href]')){if(link.href==='https://console.richrowmusic.com/addons/radio')link.href='https://richrowmusic.com/radio.html';}
