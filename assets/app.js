@@ -7,11 +7,11 @@ if(richRowNav&&!richRowNav.querySelector('a[href="distribution.html"]')){
 }
 
 const rrScriptBase=new URL('../',document.currentScript.src);
-if(richRowNav){const a=document.createElement('a');a.href=new URL('pages/radio.html',rrScriptBase);a.textContent='Radio & Live';richRowNav.append(a);}
+if(richRowNav&&!richRowNav.querySelector('a[href="radio.html"]')){const a=document.createElement('a');a.href=new URL('radio.html',rrScriptBase);a.textContent='Radio & Live';richRowNav.append(a);}
 
 // Rich Row add-on public destinations (no private keys).
 if(richRowNav){
- const destinations=[['Console','https://console.richrowmusic.com/'],['Distribution','https://console.richrowmusic.com/addons/distribution'],['Music Store','https://console.richrowmusic.com/addons/store'],['Radio & Live','https://richrowmusic.com/radio.html']];
+ const destinations=[['Console','https://console.richrowmusic.com/'],['Distribution','https://console.richrowmusic.com/addons/distribution'],['Music Store','https://console.richrowmusic.com/addons/store'],['Radio & Live',new URL('radio.html',rrScriptBase).href]];
  for(const [label,href] of destinations){let link=[...richRowNav.querySelectorAll('a')].find(a=>a.textContent.trim()===label);if(!link){link=document.createElement('a');link.textContent=label;richRowNav.append(link);}link.href=href;}
 }
 
@@ -19,7 +19,7 @@ for(const a of document.querySelectorAll('a[href]')){if(a.href.startsWith('https
 
 import('./music-embeds.js').catch(()=>console.warn('Music players unavailable.'));
 
-import('./cosmic.js?v=6').then(()=>import('./cart-counter.js')).catch(()=>console.warn('Rich Row theme unavailable.'));
+import('./cart-counter.js').catch(()=>{});
 
 if(richRowNav&&!richRowNav.querySelector('a[href="merch.html"]')){const merch=document.createElement("a");merch.href=new URL("merch.html",rrScriptBase).href;merch.textContent="Merch";const musicLink=[...richRowNav.querySelectorAll("a")].find(a=>a.textContent.trim()==="Music");if(musicLink)musicLink.after(merch);else richRowNav.append(merch);}
 
