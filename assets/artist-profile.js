@@ -1,4 +1,4 @@
-const artists={waynekastro:{name:'Wayne Kastro',url:'https://waynekastro.com'},dracodon17:{name:'Draco Don17',url:'https://dracodon17.com'},goldenrama440:{name:'Golden Rama',url:'https://goldenrama440.com'}};
+const artists={waynekastro:{name:'Wayne Kastro',url:'https://waynekastro.com'},dracodon17:{name:'Draco Don17',url:'https://dracodon17.com'},goldenrama440:{name:'Golden Rama',url:'https://goldenrama440.com'},qdon:{"name": "Q Don", "url": "https://richrowmusic.com", "bioUrl": "https://richrowmusic.com/artist-biography.html?artist=qdon", "epkUrl": "https://richrowmusic.com/artist-biography.html?artist=qdon#artist-epk"},chinachellz:{"name": "China Chellz", "url": "https://richrowmusic.com", "bioUrl": "https://richrowmusic.com/artist-biography.html?artist=chinachellz", "epkUrl": "https://richrowmusic.com/artist-biography.html?artist=chinachellz#artist-epk"},bobbioneda:{"name": "Bobbi Oneda", "url": "https://richrowmusic.com", "bioUrl": "https://richrowmusic.com/artist-biography.html?artist=bobbioneda", "epkUrl": "https://richrowmusic.com/artist-biography.html?artist=bobbioneda#artist-epk"},kathaart:{"name": "Kat Haart", "url": "https://richrowmusic.com", "bioUrl": "https://richrowmusic.com/artist-biography.html?artist=kathaart", "epkUrl": "https://richrowmusic.com/artist-biography.html?artist=kathaart#artist-epk"},shortstemper:{"name": "Shorts Temper", "url": "https://richrowmusic.com", "bioUrl": "https://richrowmusic.com/artist-biography.html?artist=shortstemper", "epkUrl": "https://richrowmusic.com/artist-biography.html?artist=shortstemper#artist-epk"},rimstooclean:{"name": "Rims Too Clean", "url": "https://richrowmusic.com", "bioUrl": "https://richrowmusic.com/artist-biography.html?artist=rimstooclean", "epkUrl": "https://richrowmusic.com/artist-biography.html?artist=rimstooclean#artist-epk"},jessbless:{"name": "Jess Bless", "url": "https://richrowmusic.com", "bioUrl": "https://richrowmusic.com/artist-biography.html?artist=jessbless", "epkUrl": "https://richrowmusic.com/artist-biography.html?artist=jessbless#artist-epk"}};
 const base='https://console.richrowmusic.com';
 const node=(tag,text='',cls='')=>{const n=document.createElement(tag);n.textContent=text;if(cls)n.className=cls;return n;};
 const safe=value=>{try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null;}};
@@ -15,16 +15,16 @@ function renderBlock(b){const box=node('section','','press-block');if(b.title)bo
 for(const root of document.querySelectorAll('[data-artist-profile]')){
  const site=root.dataset.artistProfile||new URLSearchParams(location.search).get('artist');const artist=artists[site];if(!artist){root.replaceChildren(node('p','Choose an artist to view their biography.'));continue;}
  const mode=root.dataset.profileView||'summary';const ownSite=document.body.dataset.site===site;
- const bioUrl=ownSite?'biography.html':'artist-biography.html?artist='+site,epkUrl=artist.url+'/epk.html';
- const portrait=photo(null,artist),copy=node('div','','artist-profile-copy');copy.append(node(mode==='summary'?'h2':'h1',artist.name));const desc=node('p','','artist-description');copy.append(desc);
- const links=node('nav','','artist-profile-links');links.setAttribute('aria-label',artist.name+' profile links');if(mode==='summary')links.append(anchor('Biography',bioUrl));
+ const bioUrl=ownSite?'biography.html':'artist-biography.html?artist='+site,epkUrl=artist.epkUrl||artist.url+'/epk.html';
+ const portrait=photo(null,artist),copy=node('div','','artist-profile-copy');copy.append(node(['summary','roster'].includes(mode)?'h2':'h1',artist.name));const desc=node('p','','artist-description');copy.append(desc);
+ const links=node('nav','','artist-profile-links');links.setAttribute('aria-label',artist.name+' profile links');if(['summary','roster'].includes(mode))links.append(anchor('Biography & EPK',bioUrl));if(mode==='roster'&&root.dataset.catalog)links.append(anchor('Music & artist site',root.dataset.catalog));
  const columns=node('div','','artist-profile-columns');columns.append(portrait,copy);root.replaceChildren(columns);copy.append(links);
  async function load(){try{
  const [bio,epk]=await Promise.all([published(site+'-biography'),published(site+'-epk')]);
  const image=bio?.blocks.find(b=>b.type==='image'&&b.media)?.media;if(image)portrait.replaceWith(photo(image,artist));
- desc.textContent=bio?.blocks.find(b=>b.title==='Artist introduction')?.body||'';
+ desc.textContent=mode==='roster'?'':bio?.blocks.find(b=>b.title==='Artist introduction')?.body||'';
  if(epk)links.append(anchor('EPK',mode==='biography'?'#artist-epk':epkUrl));
- if(mode!=='summary'){
+ if(!['summary','roster'].includes(mode)){
   if(mode==='biography'){const biography=node('section','','artist-biography');biography.append(node('h2','Biography'));for(const b of bio?.blocks||[])if(b.type!=='image'&&b.title!=='Artist introduction')biography.append(renderBlock(b));root.append(biography);}
   const press=node('section','','artist-epk');press.id='artist-epk';press.append(node('h2','Electronic Press Kit'));
   if(epk){for(const b of epk.blocks)press.append(renderBlock(b));const print=node('button','Print / save EPK as PDF');print.type='button';print.className='press-print';print.onclick=()=>window.print();press.append(print,anchor('Open shareable EPK',epkUrl));}
