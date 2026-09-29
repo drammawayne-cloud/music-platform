@@ -7,6 +7,17 @@ const mapping={'music.html':'music','remixes.html':'remixes','crates.html':'dj-c
 const profileArtists={'artist-waynekastro.html':'Wayne Kastro','artist-dracodon17.html':'Draco Don17','artist-goldenrama440.html':'Golden Rama'};
 const profileArtist=profileArtists[location.pathname.split('/').pop()];
 const category=profileArtist?'music':mapping[location.pathname.split('/').pop()];
+// Start with Wayne, then rotate the rest of the roster between Wayne selections.
+function featuredRosterOrder(records){
+ const wayne=records.filter(r=>r.artist==='Wayne Kastro');
+ const artists=new Map();
+ for(const r of records)if(r.artist!=='Wayne Kastro'){const name=r.artist||'More music';if(!artists.has(name))artists.set(name,[]);artists.get(name).push(r);}
+ const guests=[];while([...artists.values()].some(q=>q.length)){for(const q of artists.values())if(q.length)guests.push(q.shift());}
+ const result=wayne.splice(0,12);
+ // Spread remaining Wayne tracks evenly through the entire mixed roster.
+ while(guests.length){const count=Math.ceil(wayne.length/guests.length);result.push(guests.shift(),...wayne.splice(0,count));}
+ return result.concat(wayne);
+}
 if(category&&config.supabaseUrl&&config.publishableKey){
  const section=document.createElement('section');section.id='rich-row-published';
  const heading=document.createElement('h2');heading.textContent='Latest '+({'dj-crates':'DJ Crates','unorthodox-juggling':'Unorthodox Juggling','graphic-design':'Graphic Design'}[category]||category);
@@ -19,16 +30,17 @@ if(category&&config.supabaseUrl&&config.publishableKey){
    const response=await fetch(base.origin+'/rest/v1/rr_content?'+params,{headers:{apikey:config.publishableKey},cache:'no-store'});
    if(!response.ok)throw Error('Content unavailable');const records=await response.json();
    if(!Array.isArray(records))throw Error('Invalid response');
+   if(category==='music'&&!profileArtist)records.splice(0,records.length,...featuredRosterOrder(records));
    if(profileArtist)records.splice(0,records.length,...records.filter(r=>r.artist===profileArtist));
    if(category==='movies'){let page=records;while(page.length===200){params.set('offset',String(records.length));const more=await fetch(base.origin+'/rest/v1/rr_content?'+params,{headers:{apikey:config.publishableKey},cache:'no-store'});if(!more.ok)throw Error('Movies unavailable');page=await more.json();if(!Array.isArray(page))throw Error('Invalid movies');records.push(...page);}}
    section.querySelector('.catalog-groups')?.remove();section.querySelector('.catalog-filter')?.remove();mountHighlights(section,records);
    if(!records.length){status.textContent=category==='movies'?'Our films and stories will appear here when published.':'New releases and updates are coming soon.';return;}
    status.textContent=records.length+' releases';const groups=document.createElement('div');groups.className='catalog-groups';const genreGrids=new Map();
    for(const record of records){
-    const genre=category==='music'?(record.artist||record.genre||'More music'):'';
+    const genre=category==='music'&&profileArtist?profileArtist:'';
     if(!genreGrids.has(genre)){const group=document.createElement('section');if(genre){const label=document.createElement('h3');label.textContent=genre;group.append(label);}const grid=document.createElement('div');grid.className='grid';if(['videos','movies'].includes(category))grid.style.gridTemplateColumns='repeat(auto-fit,minmax(min(100%,420px),1fr))';group.append(grid);groups.append(group);genreGrids.set(genre,grid);}
     const grid=genreGrids.get(genre);
-    const card=document.createElement('article');card.className='card';
+    const card=document.createElement('article');card.className='card';card.dataset.artist=record.artist||'More music';
     const movie=category==='movies'&&mountMovie(card,record.link,record.title);
     const watch=youtubeId(record.video_url);
     const yt=category==='videos'?(watch||youtubeId(record.link)):null;
@@ -61,7 +73,7 @@ if(category&&config.supabaseUrl&&config.publishableKey){
     if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent=['services','graphic-design'].includes(category)?(url.hostname==='buy.stripe.com'?'Pay securely →':url.pathname.includes('/addons/booking')?'Choose a time →':'View service →'):['videos','movies'].includes(category)?'Watch →':'Listen →';a.target='_blank';a.rel='noopener noreferrer';if(url.hostname==='console.richrowmusic.com'&&url.pathname==='/addons/cart'&&url.searchParams.has('service')){a.textContent='Add to cart';a.removeAttribute('target');a.onclick=event=>{event.preventDefault();window.dispatchEvent(new CustomEvent('rr-cart-add',{detail:{item:{kind:'service',service:url.searchParams.get('service')},complete:error=>{let status=card.querySelector('[data-cart-status]');if(!status){status=document.createElement('p');status.dataset.cartStatus='';status.setAttribute('role','status');card.append(status)}status.textContent=error||'Added to your cart.';}}}))};const buy=document.createElement('a');const direct=new URL(url);direct.searchParams.set('buyNow','1');buy.href=direct.href;buy.textContent='Purchase now';card.append(a,buy);}else card.append(a);}}catch{}}
     if(watch&&category!=='videos'){const a=document.createElement('a');a.href='https://www.youtube.com/watch?v='+watch;a.textContent='Watch →';a.target='_blank';a.rel='noopener noreferrer';a.style.marginLeft='16px';card.append(a);}
     grid.append(card);
-   }if(category==='music'&&!profileArtist){const label=document.createElement('label');label.className='catalog-filter';label.textContent='Artist ';const select=document.createElement('select');select.setAttribute('aria-label','Filter catalog by artist');for(const name of ['All artists',...genreGrids.keys()]){const option=document.createElement('option');option.textContent=name;select.append(option);}select.onchange=()=>{for(const [name,grid] of genreGrids)grid.parentElement.hidden=select.value!=='All artists'&&select.value!==name;};label.append(select);section.append(label);}section.append(groups);
+   }if(category==='music'&&!profileArtist){const label=document.createElement('label');label.className='catalog-filter';label.textContent='Artist ';const select=document.createElement('select');select.setAttribute('aria-label','Filter catalog by artist');for(const name of ['All artists',...new Set(records.map(r=>r.artist||'More music'))]){const option=document.createElement('option');option.textContent=name;select.append(option);}select.onchange=()=>{for(const card of groups.querySelectorAll('article'))card.hidden=select.value!=='All artists'&&card.dataset.artist!==select.value;};label.append(select);section.append(label);}section.append(groups);
   }catch{status.textContent='Updates are temporarily unavailable. Please try again later.';}
  }
  load();
