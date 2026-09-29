@@ -1,0 +1,6 @@
+/* Branding only: original layout and theme styles remain unchanged. */
+a.brand-logo-slot{position:relative;color:transparent!important;text-shadow:none}
+a.brand-logo-slot>*:not(.brand-logo-image){visibility:hidden}
+a.brand-logo-slot .brand-logo-image{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:contain;object-position:left center;visibility:visible;border:0;background:transparent;margin:0;padding:0}
+.branding-watermark{position:fixed;inset:0;pointer-events:none;user-select:none;background:url('brand-logo.png?v=20260929') center 62%/min(65vw,650px) auto no-repeat;opacity:.025;z-index:0}
+@media print{.branding-watermark{display:none}}
