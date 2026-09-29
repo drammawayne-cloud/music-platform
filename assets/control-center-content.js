@@ -21,7 +21,7 @@ if(category&&config.supabaseUrl&&config.publishableKey){
    if(!Array.isArray(records))throw Error('Invalid response');
    if(profileArtist)records.splice(0,records.length,...records.filter(r=>r.artist===profileArtist));
    if(category==='movies'){let page=records;while(page.length===200){params.set('offset',String(records.length));const more=await fetch(base.origin+'/rest/v1/rr_content?'+params,{headers:{apikey:config.publishableKey},cache:'no-store'});if(!more.ok)throw Error('Movies unavailable');page=await more.json();if(!Array.isArray(page))throw Error('Invalid movies');records.push(...page);}}
-   section.querySelector('.catalog-groups')?.remove();mountHighlights(section,records);
+   section.querySelector('.catalog-groups')?.remove();section.querySelector('.catalog-filter')?.remove();mountHighlights(section,records);
    if(!records.length){status.textContent=category==='movies'?'Our films and stories will appear here when published.':'New releases and updates are coming soon.';return;}
    status.textContent=records.length+' releases';const groups=document.createElement('div');groups.className='catalog-groups';const genreGrids=new Map();
    for(const record of records){
@@ -61,7 +61,7 @@ if(category&&config.supabaseUrl&&config.publishableKey){
     if(record.link){try{const url=new URL(record.link);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.href=url.href;a.textContent=['services','graphic-design'].includes(category)?(url.hostname==='buy.stripe.com'?'Pay securely →':url.pathname.includes('/addons/booking')?'Choose a time →':'View service →'):['videos','movies'].includes(category)?'Watch →':'Listen →';a.target='_blank';a.rel='noopener noreferrer';if(url.hostname==='console.richrowmusic.com'&&url.pathname==='/addons/cart'&&url.searchParams.has('service')){a.textContent='Add to cart';a.removeAttribute('target');a.onclick=event=>{event.preventDefault();window.dispatchEvent(new CustomEvent('rr-cart-add',{detail:{item:{kind:'service',service:url.searchParams.get('service')},complete:error=>{let status=card.querySelector('[data-cart-status]');if(!status){status=document.createElement('p');status.dataset.cartStatus='';status.setAttribute('role','status');card.append(status)}status.textContent=error||'Added to your cart.';}}}))};const buy=document.createElement('a');const direct=new URL(url);direct.searchParams.set('buyNow','1');buy.href=direct.href;buy.textContent='Purchase now';card.append(a,buy);}else card.append(a);}}catch{}}
     if(watch&&category!=='videos'){const a=document.createElement('a');a.href='https://www.youtube.com/watch?v='+watch;a.textContent='Watch →';a.target='_blank';a.rel='noopener noreferrer';a.style.marginLeft='16px';card.append(a);}
     grid.append(card);
-   }section.append(groups);
+   }if(category==='music'&&!profileArtist){const label=document.createElement('label');label.className='catalog-filter';label.textContent='Artist ';const select=document.createElement('select');select.setAttribute('aria-label','Filter catalog by artist');for(const name of ['All artists',...genreGrids.keys()]){const option=document.createElement('option');option.textContent=name;select.append(option);}select.onchange=()=>{for(const [name,grid] of genreGrids)grid.parentElement.hidden=select.value!=='All artists'&&select.value!==name;};label.append(select);section.append(label);}section.append(groups);
   }catch{status.textContent='Updates are temporarily unavailable. Please try again later.';}
  }
  load();
