@@ -13,7 +13,7 @@ export async function mountCrateGallery(card,record){
   const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='Read all '+entry.tracks.length+' songs';details.append(summary);
   const list=document.createElement('ol');list.style.cssText='max-height:400px;overflow:auto;line-height:1.6;padding-left:30px';
   for(const track of entry.tracks){const li=document.createElement('li');li.textContent=(track.artist?track.artist+' — ':'')+track.title;list.append(li);}details.append(list);back.append(backImage,full,details);
-  const show=isBack=>{front.hidden=isBack;back.hidden=!isBack;frontButton.setAttribute('aria-pressed',String(!isBack));backButton.setAttribute('aria-pressed',String(isBack));};
+  const show=isBack=>{front.hidden=isBack;front.style.display=isBack?'none':'block';back.hidden=!isBack;frontButton.setAttribute('aria-pressed',String(!isBack));backButton.setAttribute('aria-pressed',String(isBack));};
   frontButton.onclick=()=>show(false);backButton.onclick=()=>show(true);controls.append(frontButton,backButton);front.after(controls,back);
  }catch{ /* The existing front artwork and purchase link remain usable. */ }
 }
