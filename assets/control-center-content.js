@@ -1,4 +1,4 @@
-import {mountCrateGallery} from './crate-gallery.js';
+import {mountCrateGallery} from './crate-gallery.js?v=20261004-2';
 import {mountMovie} from './movie-player.js';
 import {youtubeId, mountYouTube} from './video-embeds.js';
 import {mountHighlights} from './catalog-highlights.js';
