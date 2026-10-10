@@ -1,0 +1,9 @@
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+export async function staffEditor(area,{el,api,button,field,choose,submit,say}){
+ const [staff,calendars]=await Promise.all([api('admin/staff'),api('admin/service-calendars')]);
+ area.replaceChildren(el('h2',{},'Staff & service calendars'),el('p',{},'Add your team when you are ready. Staff profiles do not create sign-in accounts or grant administrator access. Unassigned services keep their own calendar.'));
+ const f=el('form',{class:'panel'},field('name','Staff member name','','text',true));submit(f,'Add staff member',async d=>{await api('admin/staff',d);say('Staff member added.');await staffEditor(area,{el,api,button,field,choose,submit,say});});area.append(f);
+ const labels={recording:'Recording studio','video-one':'One-scene video','video-two':'Two-scene video','video-three':'Three-or-more-scene video','final-mix':'Final mix',mastering:'Mastering','photo-portrait':'Portraits & headshots','photo-family':'Family photos','photo-event':'Event photography','photo-property':'Real estate photography','photo-commercial':'Commercial & product photography'};
+ for(const c of calendars){const row=el('form',{class:'panel'},el('h3',{},labels[c.service]||c.service),choose('staff_id','Assigned staff member',[['','Unassigned — choose later'],...staff.filter(s=>s.active||s.id===c.staff_id).map(s=>[s.id,s.name])],c.staff_id||''),el('label',{},el('input',{type:'checkbox',name:'show_staff_publicly',checked:c.show_staff_publicly===true}),'Show this staff member’s name to customers'));submit(row,'Save assignment',async d=>{await api('admin/service-calendars',{service:c.service,staff_id:d.staff_id||null,show_staff_publicly:d.show_staff_publicly===true});say('Staff assignment saved.');});area.append(row);}
+}
+

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700;800&display=swap');
+:root{color-scheme:dark;--gold:#edc16b}body{margin:0;background:#101113;color:#f1efea;font:16px/1.55 system-ui,sans-serif}header{display:flex;align-items:center;gap:30px;flex-wrap:wrap;padding:22px 5vw;border-bottom:1px solid #353535}a{color:var(--gold)}.brand{font-size:24px;font-weight:900;text-decoration:none}.brand span{font-size:12px;letter-spacing:3px}nav{display:flex;flex-wrap:wrap;gap:18px}nav a{text-decoration:none}main{max-width:1180px;margin:40px auto;padding:0 24px;min-height:65vh}h1{font-size:clamp(30px,5vw,52px);line-height:1.1}h2{margin-top:0}.eyebrow{letter-spacing:3px;color:var(--gold);font-size:12px}.muted,small{color:#c0bcb4}button,.cta{cursor:pointer;border:1px solid #645539;border-radius:8px;background:var(--gold);color:#17130d;padding:10px 16px;font:inherit;font-weight:650;text-decoration:none;display:inline-block}button.secondary{background:#222;color:#f2eee4;border-color:#555}button:disabled{opacity:.5;cursor:wait}button.danger{background:#381c1c;color:#ffd2d2;border-color:#975454}input,textarea,select{display:block;width:100%;box-sizing:border-box;margin:7px 0 15px;padding:11px;background:#191b20;color:#fff;border:1px solid #62646b;border-radius:7px;font:inherit}input[type=checkbox]{width:auto;display:inline;margin:0 8px}input[type=file]{max-width:100%}label{display:block;font-weight:600}textarea{min-height:95px}form{max-width:780px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:20px}.card,.panel,.element{border:1px solid #383b42;border-radius:14px;padding:23px;background:#191b20;margin:18px 0}.card img,.element img{max-width:100%;border-radius:10px}.card img{aspect-ratio:1;object-fit:cover}.element iframe{width:100%;aspect-ratio:16/9;border:0}.element video{width:100%}audio{width:100%}.elements .element{margin:12px 0}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.toolbar button{font-size:13px;padding:7px 12px}.badge{background:#303033;padding:4px 10px;border-radius:20px}.error{color:#ffb1ab}dialog{width:min(850px,90vw);max-height:90vh;overflow:auto;background:#191b20;color:#fff;border:1px solid #6c6049;border-radius:16px;padding:26px}dialog::backdrop{background:#000b}#notice{position:fixed;bottom:20px;left:5%;max-width:85%;background:#2a2823;color:#fff;padding:12px 20px;border-radius:9px;z-index:20}#notice:empty{display:none}footer{padding:25px 5vw;color:#aaa;border-top:1px solid #333}.skip{position:absolute;left:-9999px}.skip:focus{left:10px}.prewrap{white-space:pre-wrap;overflow-wrap:anywhere}table{width:100%;border-collapse:collapse}td,th{padding:10px;text-align:left;border-bottom:1px solid #444}.scroll{overflow-x:auto}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:3px}@media(max-width:600px){header{padding:18px;gap:16px}nav{gap:12px}main{padding:0 16px;margin-top:25px}.card,.panel,.element{padding:16px}}
+
+/* Shared Rich Row display type and transparent controls. */
+h1{font-family:'Anton',Impact,sans-serif;font-weight:400;letter-spacing:.015em}h2,h3{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;letter-spacing:.01em}.primary,.secondary,button,.cta{background:transparent;color:#f4f2fa;border:1px solid #ffffff45;border-radius:999px;min-height:40px;padding:9px 15px;box-shadow:none;font-size:13px}.primary:hover,.secondary:hover,button:hover,.cta:hover{background:#ffffff09;border-color:#e4c58199}.primary:focus-visible,.secondary:focus-visible,button:focus-visible,.cta:focus-visible{outline:2px solid #e4c581;outline-offset:4px}@media(max-width:700px){.primary,.secondary,button,.cta{min-height:44px}}
+
+/* Cream and gold, shared with the public sites; visitors can switch to dark. */
+:root{color-scheme:light;--ink:#f5efe3;--surface:#fffaf0;--raised:#e9dec9;--line:#d4c5ad;--text:#221d18;--muted:#5d5348;--accent:#765128;--gold:var(--accent)}
+:root[data-theme="dark"]{color-scheme:dark;--ink:#0d0d0c;--surface:#1b1a17;--raised:#292720;--line:#464137;--text:#f6f0e3;--muted:#c2b8a9;--accent:#e1bf7a}
+body{background:var(--ink);color:var(--text)}header,footer{background:var(--ink);border-color:var(--line);color:var(--muted)}.brand,nav a{color:var(--text)}a,.eyebrow{color:var(--accent)}.muted,small{color:var(--muted)}
+.card,.panel,.element,dialog{background:var(--surface);color:var(--text);border-color:var(--line);box-shadow:0 8px 25px #2017080b}.card{border-radius:6px}.panel{border-radius:8px}
+button,.cta,button.secondary,.primary,.secondary,.rr-theme-toggle{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:999px;min-height:44px;padding:10px 17px;box-shadow:none}
+button:hover,.cta:hover,.rr-theme-toggle:hover{background:var(--raised);border-color:var(--accent)}button.danger{background:transparent;color:#9d3535;border-color:#9d3535}
+input,textarea,select{background:var(--surface);color:var(--text);border-color:var(--line)}input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.badge,#notice{background:var(--raised);color:var(--text)}td,th{border-color:var(--line)}dialog::backdrop{background:#17120a99}
+/* Keep the cart easy to scan on desktop and mobile. */
+body:has(.rr-cart-summary) main,body:has(.rr-cart-summary) .panel{max-width:1180px}.panel:has(> .card){display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}.panel:has(> .card)>h2,.panel:has(> .card)>p,.panel:has(> .card)>h3,.panel:has(> .card)>button{grid-column:1/-1}.panel:has(> .card)>.card{margin:0}.panel:has(> .card)>h3{font-size:clamp(22px,3vw,32px);color:var(--accent)}
+/* The Golden Rama embedded chat carries its own identity. */
+:root[data-golden-chat="true"] header,:root[data-golden-chat="true"] footer{display:none}:root[data-golden-chat="true"] main{min-height:0;margin:0 auto;padding:18px}:root[data-golden-chat="true"] h1{font-size:clamp(26px,5vw,36px)}:root[data-golden-chat="true"] .panel{max-height:260px;overflow:auto}
+@media(max-width:600px){main{padding:0 16px}.panel:has(> .card){grid-template-columns:1fr}}
+:root[data-artist-membership="true"] header{min-height:56px;justify-content:flex-end}:root[data-artist-membership="true"] header .brand,:root[data-artist-membership="true"] header nav,:root[data-artist-membership="true"] footer{display:none}
+:root[data-artist-membership="true"] main{max-width:1100px;padding-top:32px}
+.artist-tier-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.artist-tier{display:flex;flex-direction:column}.artist-tier button{margin-top:auto;align-self:start}.artist-price{font-size:clamp(26px,3vw,38px);font-weight:800;color:var(--accent)}.artist-consent{display:flex;gap:10px;align-items:flex-start;font-weight:500}.artist-consent input{width:auto;margin:5px 0 0;flex:none}.artist-release img{max-width:200px}
+@media(max-width:780px){.artist-tier-grid{grid-template-columns:1fr}}
+
+/* Shared portal controls across console workspaces. */
+button,.btn,.primary,.secondary,nav a{border-radius:4px;box-shadow:none}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{display:flex;align-items:center;min-height:44px;padding:10px 14px;border:1px solid var(--line);text-decoration:none}
+.card,.panel{border-radius:6px}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+
+/* Management portals keep existing actions together. */
+body:has(.studio-portals) .cta,body:has(.studio-portals) button{border-radius:4px}
+.studio-portals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px;margin:24px 0 32px;align-items:start}
+.studio-portal{border:1px solid var(--line);border-radius:4px;background:var(--surface);overflow:hidden}
+.studio-portal summary{padding:22px;cursor:pointer;font-weight:750;font-size:18px;color:var(--text)}
+.studio-portal[open] summary{background:var(--raised);border-bottom:1px solid var(--line)}
+.studio-actions{display:grid;gap:10px;padding:16px}.studio-actions button,.studio-actions a{width:100%;min-height:56px;box-sizing:border-box;text-align:left;white-space:normal;overflow-wrap:anywhere;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:14px}
+.studio-actions button:hover,.studio-actions a:hover{background:var(--raised);border-color:var(--accent)}
+

@@ -11,7 +11,7 @@ if(richRowNav&&!richRowNav.querySelector('a[href="radio.html"]')){const a=docume
 
 // Rich Row add-on public destinations (no private keys).
 if(richRowNav){
- const destinations=[['Console','https://console.richrowmusic.com/'],['Distribution','https://console.richrowmusic.com/addons/distribution'],['Music Store','https://console.richrowmusic.com/addons/store'],['Radio & Live',new URL('radio.html',rrScriptBase).href]];
+ const destinations=[['My account','/account.html'],['Distribution','/addons/distribution/'],['Music Store','/addons/store/'],['Radio & Live',new URL('radio.html',rrScriptBase).href]];
  for(const [label,href] of destinations){let link=[...richRowNav.querySelectorAll('a')].find(a=>a.textContent.trim()===label);if(!link){link=document.createElement('a');link.textContent=label;richRowNav.append(link);}link.href=href;}
 }
 
@@ -23,7 +23,7 @@ import('./cart-counter.js').catch(()=>{});
 
 if(richRowNav&&!richRowNav.querySelector('a[href="merch.html"]')){const merch=document.createElement("a");merch.href=new URL("merch.html",rrScriptBase).href;merch.textContent="Merch";const musicLink=[...richRowNav.querySelectorAll("a")].find(a=>a.textContent.trim()==="Music");if(musicLink)musicLink.after(merch);else richRowNav.append(merch);}
 
-if(richRowNav&&!richRowNav.querySelector('a[data-merch-cart]')){const cart=document.createElement('a');cart.href='https://console.richrowmusic.com/addons/cart';cart.textContent='Cart';cart.dataset.merchCart='true';richRowNav.append(cart);}
+if(richRowNav&&!richRowNav.querySelector('a[data-merch-cart]')){const cart=document.createElement('a');cart.href='/addons/cart/';cart.textContent='Cart';cart.dataset.merchCart='true';richRowNav.append(cart);}
 
 import('./activity-popups.js?v=2').catch(()=>{});
 
@@ -33,7 +33,7 @@ import('./button-icons.js');
 
 if(richRowNav&&!richRowNav.querySelector('a[href="movies.html"]')){const movies=document.createElement('a');movies.href=new URL('movies.html',rrScriptBase).href;movies.textContent='Movies';richRowNav.append(movies);}
 
-for(const link of document.querySelectorAll('a[href]')){if(link.href==='https://console.richrowmusic.com/addons/radio')link.href='https://richrowmusic.com/radio.html';}
+for(const link of document.querySelectorAll('a[href]')){if(link.href==='/addons/radio/')link.href='https://richrowmusic.com/radio.html';}
 
 // Homepage live takeover: it occupies no space while offline or unavailable.
 (()=>{
@@ -47,7 +47,7 @@ for(const link of document.querySelectorAll('a[href]')){if(link.href==='https://
  let current='',players=[],timers=[];const clearPlayers=()=>{players.forEach(p=>p.destroy());players=[];timers.forEach(clearInterval);timers=[];};
  async function refresh(){if(document.hidden){section.hidden=true;return;}try{
   const response=await fetch('https://console.richrowmusic.com/api/addon/portal/live-now?site='+site,{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!response.ok)throw Error();const sessions=await response.json();if(!Array.isArray(sessions)||!sessions.length){section.hidden=true;clearPlayers();section.replaceChildren();current='';return;}
-  const key=JSON.stringify(sessions.map(({player_url,...rest})=>({...rest,has_player:!!player_url})));if(key!==current){clearPlayers();section.replaceChildren();for(const live of sessions){const card=document.createElement('article'),badge=document.createElement('p'),title=document.createElement('h2'),description=document.createElement('p'),link=document.createElement('a');badge.textContent='● LIVE NOW · '+live.artist;badge.style.color='#b99a61';title.textContent=live.title;description.textContent=live.description||'';link.textContent='Watch, chat & support';link.href='https://console.richrowmusic.com/addons/portal?site='+encodeURIComponent(live.site)+'&watch='+encodeURIComponent(live.id);link.className='btn';card.append(badge,title,description);if(live.player_url){const u=new URL(live.player_url);if(u.origin==='https://embed.api.video'){const frame=document.createElement('iframe');frame.src=u.href;frame.title=live.title;frame.allow='autoplay; fullscreen; picture-in-picture';frame.allowFullscreen=true;frame.style.cssText='display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin:16px 0';card.append(frame);sdkReady.then(()=>{if(!frame.isConnected||!window.PlayerSdk)return;const p=new window.PlayerSdk(frame);players.push(p);let playing=false,session;p.addEventListener('play',()=>playing=true);p.addEventListener('pause',()=>playing=false);p.addEventListener('ended',()=>playing=false);p.addEventListener('error',()=>playing=false);timers.push(setInterval(async()=>{if(!playing||document.hidden)return;try{const response=await fetch('https://console.richrowmusic.com/api/addon/portal/heartbeat',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({id:live.id,session})});const result=await response.json();if(response.ok)session=result.session;}catch{}},15000));});}}card.append(link);section.append(card);}current=key;}section.hidden=false;
+  const key=JSON.stringify(sessions.map(({player_url,...rest})=>({...rest,has_player:!!player_url})));if(key!==current){clearPlayers();section.replaceChildren();for(const live of sessions){const card=document.createElement('article'),badge=document.createElement('p'),title=document.createElement('h2'),description=document.createElement('p'),link=document.createElement('a');badge.textContent='● LIVE NOW · '+live.artist;badge.style.color='#b99a61';title.textContent=live.title;description.textContent=live.description||'';link.textContent='Watch, chat & support';link.href='/portal.html?site='+encodeURIComponent(live.site)+'&watch='+encodeURIComponent(live.id);link.className='btn';card.append(badge,title,description);if(live.player_url){const u=new URL(live.player_url);if(u.origin==='https://embed.api.video'){const frame=document.createElement('iframe');frame.src=u.href;frame.title=live.title;frame.allow='autoplay; fullscreen; picture-in-picture';frame.allowFullscreen=true;frame.style.cssText='display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin:16px 0';card.append(frame);sdkReady.then(()=>{if(!frame.isConnected||!window.PlayerSdk)return;const p=new window.PlayerSdk(frame);players.push(p);let playing=false,session;p.addEventListener('play',()=>playing=true);p.addEventListener('pause',()=>playing=false);p.addEventListener('ended',()=>playing=false);p.addEventListener('error',()=>playing=false);timers.push(setInterval(async()=>{if(!playing||document.hidden)return;try{const response=await fetch('https://console.richrowmusic.com/api/addon/portal/heartbeat',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({id:live.id,session})});const result=await response.json();if(response.ok)session=result.session;}catch{}},15000));});}}card.append(link);section.append(card);}current=key;}section.hidden=false;
  }catch{section.hidden=true;clearPlayers();section.replaceChildren();current='';}}
  refresh();setInterval(refresh,15000);document.addEventListener('visibilitychange',refresh);
 })();
