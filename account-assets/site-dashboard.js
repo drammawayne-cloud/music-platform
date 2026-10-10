@@ -1,5 +1,5 @@
 import {siteFetch as fetch,currentSite as site,artistName,clearSession,authError} from './site-context.js?v=20261010-cover';
-import {openSignIn} from './shared-login.js?v=20261010-cover';
+import {openSignIn} from './shared-login.js?v=20261010-final';
 import {handleAuthCallback} from './auth-verification.js?v=20261010-cover';
 import {botCheck} from './bot-check.js?v=20261010-cover';
 import {el} from './rr-addon-render.js?v=20261010-cover';

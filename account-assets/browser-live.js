@@ -1,5 +1,5 @@
 import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
-import {mountLiveGifts} from './live-gifts.js?v=20261010-cover';
+import {mountLiveGifts} from './live-gifts.js?v=20261010-final';
 import {liveShareButton} from './live-share.js?v=20261010-cover';
 import {createCamera,createLiveMixer} from './live-camera.js?v=20261010-cover';
 import {createMediaSender} from './live-media-sender.js?v=20261010-cover';

@@ -1,5 +1,5 @@
 import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
-import {brandSignIn} from './site-login-brand.js?v=20261010-cover';
+import {brandSignIn} from './site-login-brand.js?v=20261010-final';
 import {accountBotCheck} from './bot-check.js?v=20261010-cover';
 import {waitForVerification} from './auth-verification.js?v=20261010-cover';
 // One accessible sign-in experience for artists, customers, staff and admins.

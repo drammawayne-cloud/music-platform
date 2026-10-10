@@ -3,7 +3,7 @@ import {teamCrateCheckout,teamCrateReceipt,guestCrateOwnerPage} from './team-cra
 import {requestJSON} from './request-json.js?v=20261010-cover';
 import {offeringsAdmin,offeringsPage} from './rr-offerings.js?v=20261010-cover';
 import {handleAuthCallback} from './auth-verification.js?v=20261010-cover';
-import {openSignIn} from './shared-login.js?v=20261010-cover';
+import {openSignIn} from './shared-login.js?v=20261010-final';
 import {epkGuidelines,epkChecklist,requireEpkReview} from './rr-epk-guidelines.js?v=20261010-cover';
 import {pressKitAdmin,pressArtists} from './rr-presskit.js?v=20261010-cover';
 import {connectPage,connectorAdmin,accountAdmin,siteEditAdmin} from './rr-connect.js?v=20261010-cover';

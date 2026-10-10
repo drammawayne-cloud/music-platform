@@ -1,8 +1,8 @@
 // Use only the existing, approved public cover and logo for this website.
 export function brandSignIn(root,dialog,{site,name,role='customer'}={}){
  const brands={
-  waynekastro:{origin:'https://waynekastro.com',name:'Wayne Kastro',logo:'/assets/branding/wk-clothing-crest.png',cover:'/assets/portraits/01-studio-hero.jpg',position:'50% 25%',paper:'#f3ecdf',ink:'#151515',accent:'#dfc7a0',font:'Arial,sans-serif'},
-  dracodon17:{origin:'https://dracodon17.com',name:'Draco Don17',logo:'/assets/branding/dd17-firearm-approved.png',cover:'/assets/portraits/01-studio-hero-beard.jpg',position:'50% 24%',paper:'#f3ecdf',ink:'#151515',accent:'#d4ec5d',font:'Arial,sans-serif'},
+  waynekastro:{origin:'https://waynekastro.com',name:'Wayne Kastro',logo:'/assets/branding/wk-clothing-crest.png',cover:'/assets/portraits/01-studio-hero.jpg',position:'78% 25%',paper:'#f3ecdf',ink:'#151515',accent:'#dfc7a0',font:'Arial,sans-serif'},
+  dracodon17:{origin:'https://dracodon17.com',name:'Draco Don17',logo:'/assets/branding/dd17-firearm-approved.png',cover:'/assets/portraits/01-studio-hero-beard.jpg',position:'50% 24%',paper:'#f3ecdf',ink:'#151515',accent:'#b88b4e',font:'Arial,sans-serif'},
   goldenrama440:{origin:'https://goldenrama440.com',name:'Golden Rama 440',logo:'/brand-logo.png',cover:'/assets/portraits/01-studio-hero.jpg',position:'50% 25%',paper:'#f4eddd',ink:'#24211d',accent:'#b87923',font:'Georgia,serif'},
   richrow:{origin:'https://richrowmusic.com',name:'Rich Row Music',logo:'/brand-logo.png',cover:'/assets/rich-row-founder-charcoal-gold.png',position:'50% 35%',paper:'#f5efe3',ink:'#221d18',accent:'#bc9a55',font:'Impact,Arial,sans-serif'}
  };
