@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 /** Shared player for authorized streaming URLs or local file previews.
  * Decorative motion follows playback state. It is not an audio waveform or paid-play counter.
  * The caller must obtain authorized access before setting src; this component grants no access.

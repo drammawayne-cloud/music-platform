@@ -1,8 +1,8 @@
-import {siteFetch as fetch,currentSite as site,artistName,clearSession,authError} from './site-context.js';
-import {openSignIn} from './shared-login.js';
-import {handleAuthCallback} from './auth-verification.js';
-import {botCheck} from './bot-check.js';
-import {el} from './rr-addon-render.js';
+import {siteFetch as fetch,currentSite as site,artistName,clearSession,authError} from './site-context.js?v=20261010-cover';
+import {openSignIn} from './shared-login.js?v=20261010-cover';
+import {handleAuthCallback} from './auth-verification.js?v=20261010-cover';
+import {botCheck} from './bot-check.js?v=20261010-cover';
+import {el} from './rr-addon-render.js?v=20261010-cover';
 const main=document.querySelector('main'),account=document.getElementById('account'),dialog=document.querySelector('dialog'),notice=document.getElementById('notice'),q=new URLSearchParams(location.search),mode=document.body.dataset.page;
 let config,permissions,token=sessionStorage.getItem('rr_artist_token')||'';
 const say=m=>notice.textContent=m,button=(label,fn,cls='')=>el('button',{type:'button',class:cls,onclick:async e=>{const target=e.currentTarget;target.disabled=true;try{await fn();}catch(err){say(err.message);}finally{target.disabled=false;}}},label),link=(label,url)=>el('a',{href:url,class:'cta secondary'},label);

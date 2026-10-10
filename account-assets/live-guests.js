@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 const GROUP_PATH='/api/addon/group-live/socket';
 async function connect(session,onMessage,onClose){
  const url=new URL(session.path,apiOrigin);if(url.origin!==apiOrigin||url.pathname!==GROUP_PATH)throw Error('Invalid guest connection.');url.protocol='wss:';

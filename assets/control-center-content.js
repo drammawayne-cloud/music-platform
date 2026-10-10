@@ -1,9 +1,9 @@
-import {mountCrateGallery} from './crate-gallery.js?v=20261004-2';
-import {mountMovie} from './movie-player.js';
-import {youtubeId, mountYouTube} from './video-embeds.js';
-import {mountHighlights} from './catalog-highlights.js';
-import './audio-player.js';
-import {config} from './control-center-config.js';
+import {mountCrateGallery} from './crate-gallery.js?v=20261010-cover';
+import {mountMovie} from './movie-player.js?v=20261010-cover';
+import {youtubeId, mountYouTube} from './video-embeds.js?v=20261010-cover';
+import {mountHighlights} from './catalog-highlights.js?v=20261010-cover';
+import './audio-player.js?v=20261010-cover';
+import {config} from './control-center-config.js?v=20261010-cover';
 const mapping={'music.html':'music','remixes.html':'remixes','crates.html':'dj-crates','juggling.html':'unorthodox-juggling','beats.html':'beats','releases.html':'releases','radio.html':'radio','videos.html':'videos','movies.html':'movies','services.html':'services','graphic-design.html':'graphic-design'};
 const profileArtists={'artist-waynekastro.html':'Wayne Kastro','artist-dracodon17.html':'Draco Don17','artist-goldenrama440.html':'Golden Rama'};
 const profileArtist=profileArtists[location.pathname.split('/').pop()];

@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export function movieSource(value){
  try{
   const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password)return null;

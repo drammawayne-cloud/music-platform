@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export function distinctCameraSources(a,b){
  const first=a?.getSettings?.()||{},second=b?.getSettings?.()||{};
  if(!a||!b||a===b||a.id===b.id)return false;

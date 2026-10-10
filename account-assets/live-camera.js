@@ -1,5 +1,5 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
-import {monitorCameraFrames,cameraFrameHealthy,verifyConcurrentCameras} from './live-camera-health.js?v=20261010-camera';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
+import {monitorCameraFrames,cameraFrameHealthy,verifyConcurrentCameras} from './live-camera-health.js?v=20261010-cover';
 export function liveLayout(count,width=640,height=360,orientation='side'){
  if(count<=1)return [{x:0,y:0,w:width,h:height}];
  if(count===2)return orientation==='stack'?[{x:0,y:0,w:width,h:height/2},{x:0,y:height/2,w:width,h:height/2}]:[{x:0,y:0,w:width/2,h:height},{x:width/2,y:0,w:width/2,h:height}];

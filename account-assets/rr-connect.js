@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 const sites={richrow:'Rich Row Records',waynekastro:'Wayne Kastro',dracodon17:'Draco Don17',goldenrama440:'Golden Rama'};
 export async function connectPage({main,el,api,button,login,getToken,title}){
  const params=new URLSearchParams(location.search),site=params.get('site')||'richrow';if(!Object.hasOwn(sites,site))throw Error('Choose a valid site.');const role=params.get('role')||'staff';if(new URLSearchParams(location.hash.slice(1)).get('type')==='recovery'){title(sites[site],'Reset your password','Use the secure password reset form.');return;}

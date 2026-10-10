@@ -1,5 +1,5 @@
 // Existing music-platform shared entry; extends the current site without changing its pages.
-import('./control-center-content.js?v=crate-gallery-20261004-2').catch(()=>console.warn('Rich Row content connection is unavailable.'));
+import('./control-center-content.js?v=20261010-cover').catch(()=>console.warn('Rich Row content connection is unavailable.'));
 // Add Distribution to the shared navigation without changing existing page files.
 const richRowNav=document.querySelector('header nav');
 if(richRowNav&&!richRowNav.querySelector('a[href="distribution.html"]')){
@@ -17,19 +17,19 @@ if(richRowNav){
 
 for(const a of document.querySelectorAll('a[href]')){if(a.href.startsWith('https://rich-row-control-center.onrender.com/'))a.href=a.href.replace('https://rich-row-control-center.onrender.com','https://console.richrowmusic.com');}
 
-import('./music-embeds.js').catch(()=>console.warn('Music players unavailable.'));
+import('./music-embeds.js?v=20261010-cover').catch(()=>console.warn('Music players unavailable.'));
 
-import('./cart-counter.js').catch(()=>{});
+import('./cart-counter.js?v=20261010-cover').catch(()=>{});
 
 if(richRowNav&&!richRowNav.querySelector('a[href="merch.html"]')){const merch=document.createElement("a");merch.href=new URL("merch.html",rrScriptBase).href;merch.textContent="Merch";const musicLink=[...richRowNav.querySelectorAll("a")].find(a=>a.textContent.trim()==="Music");if(musicLink)musicLink.after(merch);else richRowNav.append(merch);}
 
 if(richRowNav&&!richRowNav.querySelector('a[data-merch-cart]')){const cart=document.createElement('a');cart.href='/addons/cart/';cart.textContent='Cart';cart.dataset.merchCart='true';richRowNav.append(cart);}
 
-import('./activity-popups.js?v=2').catch(()=>{});
+import('./activity-popups.js?v=20261010-cover').catch(()=>{});
 
-import('./customer-chat-widget.js?v=cream1').catch(()=>{});
+import('./customer-chat-widget.js?v=20261010-cover').catch(()=>{});
 
-import('./button-icons.js');
+import('./button-icons.js?v=20261010-cover');
 
 if(richRowNav&&!richRowNav.querySelector('a[href="movies.html"]')){const movies=document.createElement('a');movies.href=new URL('movies.html',rrScriptBase).href;movies.textContent='Movies';richRowNav.append(movies);}
 

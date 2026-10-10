@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 const KEY='rr-shared-cart-v1';
 export function readCart(){try{const rows=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(rows)?rows:[]}catch{return []}}
 export function writeCart(rows){localStorage.setItem(KEY,JSON.stringify(rows));localStorage.removeItem('rr-shared-checkout-id');window.dispatchEvent(new Event('rr-cart-change'));}

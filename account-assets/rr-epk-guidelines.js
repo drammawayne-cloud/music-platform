@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export function epkGuidelines(el){
  const box=el('section',{class:'card'},el('h3',{},'EPK guidelines — read before publishing'),el('p',{},'An Electronic Press Kit introduces an artist to promoters, venues and media. Requirements vary by recipient; there is no single universal EPK rulebook. The checklist below is Rich Row’s publishing review, not an industry certification.'));
  const items=[

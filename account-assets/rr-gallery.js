@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 const tierNames=[['basic','Live + Gallery ($15)'],['new','Music'],['catalog','Chosen Catalog'],['vault','DJ Vault']];
 export async function galleryAdmin({area,el,api,button,field,choose,check,submit,modal,upload,say}){
  const albums=await api('admin/gallery');

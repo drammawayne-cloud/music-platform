@@ -1,9 +1,9 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 const catalog={like:{emoji:'👍',name:'Like',count:3},heart:{emoji:'❤️',name:'Heart',count:5},diamond:{emoji:'💎',name:'Diamond',count:8},money_rain:{emoji:'💸',name:'Money Rain',count:14},big_money_rain:{emoji:'💸',name:'Bigger Money Rain',count:26}};
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;};
 const money=c=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(c/100);
 export function mountLiveGifts({stage,container,api,id,site,signedIn,onSignIn=()=>{},receiveOnly=false}){
- if(!document.querySelector('[data-live-gifts-style]')){const css=node('link');css.rel='stylesheet';css.href='/account-assets/live-gifts.css?v=20261010-gifts';css.dataset.liveGiftsStyle='1';document.head.append(css);}
+ if(!document.querySelector('[data-live-gifts-style]')){const css=node('link');css.rel='stylesheet';css.href='/account-assets/live-gifts.css?v=20261010-cover';css.dataset.liveGiftsStyle='1';document.head.append(css);}
  const layer=node('div',null,'rr-gift-effects'),notice=node('p',null,'rr-gift-notice');layer.setAttribute('aria-hidden','true');notice.setAttribute('role','status');stage.classList.add('rr-gift-stage');stage.append(layer);
  const panel=node('section',null,'rr-gifts'),buttons=node('div',null,'rr-gift-buttons');panel.append(node('h3','Send a live gift'),buttons,notice);if(!receiveOnly)container.append(panel);
  const methods=node('select');methods.setAttribute('aria-label','Payment method for gifts');const methodLabel=node('label','Pay with ');methodLabel.append(methods);if(!receiveOnly)panel.insertBefore(methodLabel,buttons);methodLabel.hidden=true;

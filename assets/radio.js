@@ -1,4 +1,4 @@
-import {mountSpeakerRadio} from './radio-player.js?v=cover3';
+import {mountSpeakerRadio} from './radio-player.js?v=20261010-cover';
 const station='https://richrow-radio.129-213-164-255.sslip.io/public/rich_row_radio';
 const stream='https://richrow-radio.129-213-164-255.sslip.io/listen/rich_row_radio/radio.mp3';
 for(const root of document.querySelectorAll('[data-radio]')){

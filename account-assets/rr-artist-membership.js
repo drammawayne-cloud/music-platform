@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 const names={dracodon17:'Draco Don17',waynekastro:'Wayne Kastro',goldenrama440:'Golden Rama 440'};
 const tiers=[['c','C',15,'This artist’s gallery + live broadcasts, with existing listening previews. One membership. No music downloads.'],['b','B',49.99,'Listen and download songs selected by the artist.'],['a','A',99.99,'Full access to this artist’s published member catalog and downloads.']];
 export async function artistMembershipPage({main,el,api,button,field,submit,login,getToken,title,say,authRequest}){

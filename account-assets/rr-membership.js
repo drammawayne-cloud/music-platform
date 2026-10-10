@@ -1,6 +1,6 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
-import {membershipCards,tiers} from './membership-cards.js?v=gallery2';
-import {addToCart,purchaseNow} from './rr-cart-state.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
+import {membershipCards,tiers} from './membership-cards.js?v=20261010-cover';
+import {addToCart,purchaseNow} from './rr-cart-state.js?v=20261010-cover';
 export async function membershipPage({main,el,api,button,field,check,submit,login,getToken,title,say}){
  title('RICH ROW / MEMBERSHIP','Choose your access.','');
  const selectTier=tier=>{const panel=el('section',{class:'panel'},el('h2',{},tier.name+' — $'+tier.price+'/month'),button('Add to cart',()=>{addToCart({kind:'membership',plan:tier.id});say('Membership added to your cart.');}),button('Purchase now',()=>purchaseNow({kind:'membership',plan:tier.id},{api,getToken,login})));main.append(panel);panel.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});};main.append(membershipCards(selectTier));const chosen=tiers.find(t=>t.id===new URLSearchParams(location.search).get('plan'));if(chosen&&chosen.id!=='free')selectTier(chosen);

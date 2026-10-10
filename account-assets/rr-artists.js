@@ -1,5 +1,5 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
-import {rosterAccessEditor} from './rr-roster-access.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
+import {rosterAccessEditor} from './rr-roster-access.js?v=20261010-cover';
 export async function artistAdmin(ctx){
  const {area,el,api,button,field,submit,modal,upload,say}=ctx;
  const profiles=await api('admin/artists');

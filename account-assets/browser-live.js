@@ -1,15 +1,15 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
-import {mountLiveGifts} from './live-gifts.js?v=20261010-gifts';
-import {liveShareButton} from './live-share.js?v=20261010-share';
-import {createCamera,createLiveMixer} from './live-camera.js?v=20261010-camera';
-import {createMediaSender} from './live-media-sender.js?v=20261010-stability';
-import {openHostGuests,openGuestConnection} from './live-guests.js?v=20261010-stability';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
+import {mountLiveGifts} from './live-gifts.js?v=20261010-cover';
+import {liveShareButton} from './live-share.js?v=20261010-cover';
+import {createCamera,createLiveMixer} from './live-camera.js?v=20261010-cover';
+import {createMediaSender} from './live-media-sender.js?v=20261010-cover';
+import {openHostGuests,openGuestConnection} from './live-guests.js?v=20261010-cover';
 
 function element(tag,text,className){const node=document.createElement(tag);if(text)node.textContent=text;if(className)node.className=className;return node;}
 function button(text,action,className=''){const b=element('button',text,className);b.type='button';b.onclick=action;return b;}
 function select(label,choices){const wrap=element('label',label),input=element('select');for(const[value,title]of choices){const o=element('option',title);o.value=value;input.append(o);}wrap.append(input);return {wrap,input};}
 function setup({title,guest=false}){
- if(!document.querySelector('link[data-live-studio]')){const css=element('link');css.rel='stylesheet';css.href='/account-assets/live-studio.css?v=20261010-stability';css.dataset.liveStudio='1';document.head.append(css);}
+ if(!document.querySelector('link[data-live-studio]')){const css=element('link');css.rel='stylesheet';css.href='/account-assets/live-studio.css?v=20261010-cover';css.dataset.liveStudio='1';document.head.append(css);}
  const dialog=element('dialog',null,'rr-live'),header=element('header',null,'rr-live-header'),heading=element('h2',guest?'Join the live':'Your live studio'),close=button('✕',null,'rr-live-close');close.setAttribute('aria-label','Close studio');header.append(heading,close);
  const stage=element('div',null,'rr-live-stage'),preview=element('video');preview.muted=true;preview.autoplay=true;preview.playsInline=true;preview.setAttribute('aria-label','Live preview');
  const placeholder=element('div','Press the red button. Allow your camera and microphone when asked.','rr-live-placeholder'),badge=element('span','PREVIEW','rr-live-badge'),clock=element('span','', 'rr-live-clock');stage.append(preview,placeholder,badge,clock);

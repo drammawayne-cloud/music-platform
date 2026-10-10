@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export function el(tag,attrs={},...children){const node=document.createElement(tag);for(const [k,v]of Object.entries(attrs)){if(v===null||v===undefined)continue;if(k.startsWith('on'))node.addEventListener(k.slice(2),v);else if(k==='href')node.href=localLink(v);else if(k==='class')node.className=v;else if(k in node)node[k]=v;else node.setAttribute(k,String(v));}for(const c of children.flat()){if(c!==null&&c!==undefined)node.append(c instanceof Node?c:document.createTextNode(String(c)));}return node;}
 export function renderBlock(b){const box=el('section',{class:'element'});if(b.hidden)return box;
  if(b.title)box.append(el(b.type==='heading'?'h2':'h3',{},b.title));if(b.body)box.append(el('p',{class:'prewrap'},b.body));

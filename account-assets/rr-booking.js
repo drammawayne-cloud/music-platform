@@ -1,5 +1,5 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
-import {addToCart,purchaseNow} from './rr-cart-state.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
+import {addToCart,purchaseNow} from './rr-cart-state.js?v=20261010-cover';
 export async function bookingPage({main,el,api,button,field,choose,submit,login,getToken,title,say}){
  title('RICH ROW / SESSIONS','Make time for your sound.','Choose your department, date and session. Reserve with cash due at the session, or pay securely by card.');
  const settings=await api('booking-settings');const requestedService=new URLSearchParams(location.search).get('service');let dept=requestedService?.startsWith('photo-')?'photography':requestedService?.startsWith('lounge-')?'lounge':requestedService?.startsWith('video-')?'video':'recording',start='';const panels=el('div'),calendar=el('div'),slots=el('div'),summary=el('div',{class:'panel'}),bookings=el('div');

@@ -1,5 +1,5 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
-import {readCart,writeCart,addToCart,migrateMerchCart,purchaseNow} from './rr-cart-state.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
+import {readCart,writeCart,addToCart,migrateMerchCart,purchaseNow} from './rr-cart-state.js?v=20261010-cover';
 const services={'ai-video-one':['AI video — 1 minute',10000],'ai-video-two':['AI video — 2 minutes',19000],'ai-video-three':['AI video — 3 minutes',28000],'final-mix':['Final mix',15000],mastering:['Mastering',45000]};
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n/100);
 export async function sharedCartPage({main,el,api,button,field,login,getToken,title,say}){

@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 // Logo presentation only; account, checkout and registry logic stay untouched.
 const {brand: key='richrow', brandName: name='Rich Row Records', brandOrigin: origin='https://richrowmusic.com'}=document.body.dataset;
 const logo=origin+'/brand-logo.png?v=20260929';

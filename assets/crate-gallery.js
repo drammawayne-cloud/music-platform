@@ -1,5 +1,5 @@
 let catalog;
-async function artCatalog(){if(!catalog)catalog=fetch(new URL('./crate-catalog.json',import.meta.url),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Artwork unavailable');return r.json();});return catalog;}
+async function artCatalog(){if(!catalog)catalog=fetch(new URL('./crate-catalog.js?v=20261010-coveron',import.meta.url),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Artwork unavailable');return r.json();});return catalog;}
 export async function mountCrateGallery(card,record){
  const front=card.querySelector('img');if(!front)return;
  try{

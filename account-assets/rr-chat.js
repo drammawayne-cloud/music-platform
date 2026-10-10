@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export async function customerChat({main,el,api,button,field,submit,login,getToken,title,say}){
  const golden=new URLSearchParams(location.search).get('site')==='goldenrama440';
  title(golden?'GOLDEN RAMA 440':'RICH ROW / CHAT',golden?'Live Chat':'Chat with us',golden?'Leave a message for Bomb Shop Music. Replies appear here; response times vary.':'Leave a message for the Rich Row team. Replies appear here; response times vary.');

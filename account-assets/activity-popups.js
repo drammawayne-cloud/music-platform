@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 // Real, anonymous purchase summaries plus clearly identified site promotions.
 // No simulated customers, fabricated locations or invented transactions.
 if(!location.pathname.includes('/admin')&&!location.pathname.includes('/artist-membership'))startActivity();

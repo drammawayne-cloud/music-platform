@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export async function bootWorkspace({target,moduleUrl,load=()=>import(moduleUrl),timeoutMs=15000}){
  let settled=false;
  function unavailable(){

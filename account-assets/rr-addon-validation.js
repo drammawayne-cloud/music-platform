@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export const types=['heading','text','button','divider','spacer','image','gallery','cover','audio','video','youtube','vimeo','instagram','tiktok','facebook','x','release','radio','distribution'];
 export function fail(message){throw Object.assign(new Error(message),{status:400});}
 export function text(v,max=200,required=false){if(typeof v!=='string'||v.length>max||(required&&!v.trim()))fail('Enter valid text (maximum '+max+' characters).');return v.trim();}

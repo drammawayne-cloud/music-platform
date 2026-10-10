@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 export async function staffEditor(area,{el,api,button,field,choose,submit,say}){
  const [staff,calendars]=await Promise.all([api('admin/staff'),api('admin/service-calendars')]);
  area.replaceChildren(el('h2',{},'Staff & service calendars'),el('p',{},'Add your team when you are ready. Staff profiles do not create sign-in accounts or grant administrator access. Unassigned services keep their own calendar.'));

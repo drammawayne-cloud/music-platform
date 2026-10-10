@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 const origins={richrow:'https://richrowmusic.com',waynekastro:'https://waynekastro.com',dracodon17:'https://dracodon17.com',goldenrama440:'https://goldenrama440.com'};
 const brands={richrow:'Rich Row Music',waynekastro:'Wayne Kastro',dracodon17:'Draco Don17',goldenrama440:'Golden Rama 440'};
 export function liveShareData(record){
@@ -23,7 +23,7 @@ function button(text,action,cls=''){const b=node('button',text,cls);b.type='butt
 export function openLiveShare(record,{host=false}={}){
  const data=liveShareData(record);if(!data)return null;
  document.querySelector('dialog.rr-share')?.close();
- if(!document.querySelector('link[data-live-share]')){const css=node('link');css.rel='stylesheet';css.href=new URL('./live-share.css?v=20261010-share',import.meta.url).href;css.dataset.liveShare='1';document.head.append(css);}
+ if(!document.querySelector('link[data-live-share]')){const css=node('link');css.rel='stylesheet';css.href=new URL('./live-share.css?v=20261010-cover',import.meta.url).href;css.dataset.liveShare='1';document.head.append(css);}
  const dialog=node('dialog',null,'rr-share'),header=node('header'),heading=node('h2','Share live'),close=button('✕',()=>dialog.close(),'rr-share-close');close.setAttribute('aria-label','Close sharing');header.append(heading,close);
  const summary=node('p',data.title,'rr-share-title'),status=node('p','Choose an app, or copy your link and caption.','rr-share-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const url=node('input');url.type='text';url.value=data.url;url.readOnly=true;url.setAttribute('aria-label','Public viewer link');

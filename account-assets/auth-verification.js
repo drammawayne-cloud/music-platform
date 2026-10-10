@@ -1,4 +1,4 @@
-import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js';
+import {siteFetch as fetch,currentSite,apiOrigin,localLink,startGoogle,clearSession,saveSession} from './site-context.js?v=20261010-cover';
 // Real email verification: the URL alone never proves verification.
 // The account service must accept the token and confirm email_confirmed_at.
 export const accountDestination=(site,role)=>(role==='artist'?'/portal.html':'/account.html')+'?site='+encodeURIComponent(currentSite)+'&role='+encodeURIComponent(role);
